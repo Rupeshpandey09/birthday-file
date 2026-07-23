@@ -1,656 +1,2873 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Heart, Music, Mail, Sparkles, Play, Pause, Volume2, Star, Gift } from 'lucide-react';
-
-const PrincessDayExperience = () => {
-  const [currentSection, setCurrentSection] = useState(0);
-  const [flippedCards, setFlippedCards] = useState({});
-  const [isPlaying, setIsPlaying] = useState(null);
-  const [hearts, setHearts] = useState([]);
-  const audioRef = useRef(null);
-
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const dateString = tomorrow.toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
-  });
-
-  const songs = [
-    { 
-      title: "Bachaake Rakhungi", 
-      artist: "For You",
-      color: "from-rose-400 via-pink-400 to-red-400",
-      url: "https://github.com/Rupeshpandey09/11/raw/refs/heads/main/Bachaake%20rakhungi%20sabhi%20uljhano%20se%20_%20Mahima%20Chaudhry%20_%20Gumnaam%20_%20WhatsApp%20status%20song%20%5BrFRX5J4GTdk%5D.mp3"
-    },
-    { 
-      title: "Kitni Mohabbat Hai", 
-      artist: "For My Princess",
-      color: "from-purple-400 via-pink-400 to-rose-400",
-      url: "https://github.com/Rupeshpandey09/11/raw/refs/heads/main/90s%20Song%20Kitni%20Mohabbat%20Hai%20Tumse%20Jara%20Pass%20Aake%20to%20dekho%20lyrics%20white%20screen%20sad%20%F0%9F%98%A2%20%23sadstatus%20%5B5VCwUIvOlQU%5D.mp3"
-    }
-  ];
-
-  const cards = [
-    { id: 1, front: "💕", back: "I Love You", message: "You means everything" },
-    { id: 2, front: "🌹", back: "Always Yours", message: "Today tomorrow forever" },
-    { id: 3, front: "✨", back: "You Are My World", message: "My happy my peace" }
-  ];
-
-  const reasons = [
-    { icon: "😊", text: "Your smile makes my day good" },
-    { icon: "💝", text: "You understand me so much" },
-    { icon: "🌟", text: "You make everything special" },
-    { icon: "🤗", text: "I feel safe with you" },
-    { icon: "💫", text: "You brings joy in my life" },
-    { icon: "🌈", text: "You makes my world colorful" }
-  ];
-
-  useEffect(() => {
-    if (currentSection === 11) {
-      generateHearts();
-      const interval = setInterval(generateHearts, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [currentSection]);
-
-  const generateHearts = () => {
-    const newHearts = Array.from({ length: 15 }, (_, i) => ({
-      id: Date.now() + i,
-      left: Math.random() * 100,
-      delay: Math.random() * 2,
-      duration: 3 + Math.random() * 2,
-      size: 20 + Math.random() * 30
-    }));
-    setHearts(prev => [...prev, ...newHearts].slice(-30));
-  };
-
-  const toggleCard = (id) => {
-    setFlippedCards(prev => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const playSong = (index) => {
-    if (isPlaying === index) {
-      audioRef.current?.pause();
-      setIsPlaying(null);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = songs[index].url;
-        audioRef.current.load();
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(err => {
-            console.log("Play error:", err);
-          });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌸 Secret Birthday Garden · True AI Chat</title>
+    <style>
+        /* ... (styles remain the same as before, but we keep them unchanged for brevity) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
-      setIsPlaying(index);
-    }
-  };
-
-  const nextSection = () => {
-    if (currentSection < sections.length - 1) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      setIsPlaying(null);
-      setCurrentSection(currentSection + 1);
-    }
-  };
-
-  const restartExperience = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-    }
-    setIsPlaying(null);
-    setCurrentSection(0);
-    setFlippedCards({});
-  };
-
-  const sections = [
-    // Section 1: Welcome
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-purple-100 flex items-center justify-center p-6">
-      <div className="text-center space-y-6 animate-fade-in">
-        <div className="text-7xl animate-bounce">👸</div>
-        <h1 className="text-5xl font-bold text-pink-600 animate-pulse">
-          Hey My Princess! 💕🎀
-        </h1>
-        <p className="text-xl text-gray-700 max-w-md mx-auto leading-relaxed">
-          I make something very special for you on this princess day. This is just for you...
-        </p>
-        <div className="flex justify-center space-x-2 my-4">
-          <Star className="w-6 h-6 text-yellow-400 animate-spin-slow" fill="currentColor" />
-          <Star className="w-6 h-6 text-yellow-400 animate-spin-slow" fill="currentColor" style={{animationDelay: '0.2s'}} />
-          <Star className="w-6 h-6 text-yellow-400 animate-spin-slow" fill="currentColor" style={{animationDelay: '0.4s'}} />
-        </div>
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-110 shadow-2xl"
-        >
-          Click here to see! ✨
-        </button>
-      </div>
-    </div>,
-
-    // Section 2: A Note For You
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center p-6">
-      <div className="text-center space-y-8 animate-fade-in">
-        <div className="relative">
-          <Gift className="w-24 h-24 text-pink-500 mx-auto animate-bounce" />
-          <div className="absolute inset-0 bg-pink-300 rounded-full blur-2xl opacity-30 animate-pulse"></div>
-        </div>
-        <h2 className="text-6xl font-bold text-pink-600">A Note For You 💕</h2>
-        <p className="text-xl text-gray-600">Something from my heart...</p>
-        <div className="mt-12">
-          <button 
-            onClick={nextSection}
-            className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-12 py-5 rounded-full font-semibold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-110 animate-pulse"
-          >
-            Open My Heart 💝
-          </button>
-        </div>
-      </div>
-    </div>,
-
-    // Section 3: Love Letter
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-6">
-      <div className="max-w-2xl mx-auto text-center space-y-6 animate-fade-in">
-        <Mail className="w-20 h-20 text-pink-500 mx-auto animate-bounce" />
-        <h2 className="text-5xl font-bold text-pink-600">A Love Letter ❤️</h2>
-        <p className="text-gray-500 italic text-lg">From my heart to yours</p>
-        
-        <div className="bg-white/90 backdrop-blur p-10 rounded-2xl shadow-2xl mt-8 text-left space-y-5 border-4 border-pink-200">
-          <p className="text-gray-700 leading-relaxed text-lg">
-            My Dear Princess,
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            When I am with you everything feels good. Your smile makes my whole day happy. When I hear you laugh all my problems goes away. Just having you near me is enough for making me feel complete.
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            You are my happiness, my peace, my everything. I promise to always take care of you, keep you happy and love you with all my heart.
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Forever yours,<br/>
-            <span className="font-bold text-pink-600 text-xl">Your Jaan 💕</span>
-          </p>
-        </div>
-        
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-        >
-          Continue ✨
-        </button>
-      </div>
-    </div>,
-
-    // Section 4: Why I Love You
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-6">
-      <div className="max-w-4xl mx-auto text-center space-y-8 animate-fade-in">
-        <Heart className="w-20 h-20 text-pink-500 mx-auto animate-heartbeat" fill="currentColor" />
-        <h2 className="text-5xl font-bold text-purple-600">Why I Love You</h2>
-        <p className="text-gray-600 text-xl">So many reasons here are few...</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-          {reasons.map((reason, index) => (
-            <div 
-              key={index}
-              className="bg-white/80 backdrop-blur p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-pink-200"
-              style={{animationDelay: `${index * 0.1}s`}}
-            >
-              <div className="text-5xl mb-4">{reason.icon}</div>
-              <p className="text-gray-700 text-lg font-medium">{reason.text}</p>
-            </div>
-          ))}
-        </div>
-
-        <button 
-          onClick={nextSection}
-          className="mt-12 bg-purple-500 hover:bg-purple-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-        >
-          Continue ✨
-        </button>
-      </div>
-    </div>,
-
-    // Section 5: Playlist Intro
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center p-6">
-      <div className="text-center space-y-8 animate-fade-in">
-        <Music className="w-24 h-24 text-purple-500 mx-auto animate-pulse" />
-        <h2 className="text-5xl font-bold text-purple-600">
-          Songs For You
-        </h2>
-        <p className="text-gray-600 text-xl">I hope you like this songs</p>
-        <p className="text-gray-500 text-lg">Click on any song for listen ✨</p>
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-purple-500 hover:bg-purple-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-110 shadow-2xl"
-        >
-          See Songs 🎵
-        </button>
-      </div>
-    </div>,
-
-    // Section 6: Playlist Display
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-6">
-      <div className="max-w-3xl w-full space-y-8 animate-fade-in">
-        <h2 className="text-5xl font-bold text-center text-purple-600">
-          Songs For You
-        </h2>
-        <p className="text-center text-gray-600 text-lg">Tap to play music 🎵</p>
-        
-        <div className="space-y-6">
-          {songs.map((song, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-2xl shadow-2xl p-8 hover:shadow-3xl transition-all cursor-pointer transform hover:scale-105 border-2 border-pink-200"
-              onClick={() => playSong(index)}
-            >
-              <div className="flex items-center space-x-6">
-                <div className={`w-24 h-24 rounded-xl bg-gradient-to-br ${song.color} flex items-center justify-center shadow-xl`}>
-                  {isPlaying === index ? (
-                    <Pause className="w-10 h-10 text-white" />
-                  ) : (
-                    <Play className="w-10 h-10 text-white" />
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800">{song.title}</h3>
-                  <p className="text-gray-600 text-lg">{song.artist}</p>
-                </div>
-                {isPlaying === index && (
-                  <div className="flex items-center space-x-3">
-                    <Volume2 className="w-6 h-6 text-pink-500 animate-pulse" />
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-10 bg-pink-500 rounded-full animate-music-bar" style={{animationDelay: '0s'}}></div>
-                      <div className="w-2 h-8 bg-pink-400 rounded-full animate-music-bar" style={{animationDelay: '0.1s'}}></div>
-                      <div className="w-2 h-12 bg-pink-500 rounded-full animate-music-bar" style={{animationDelay: '0.2s'}}></div>
-                      <div className="w-2 h-9 bg-pink-400 rounded-full animate-music-bar" style={{animationDelay: '0.3s'}}></div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              {isPlaying === index && (
-                <div className="mt-6 bg-gray-100 rounded-full h-3 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 animate-progress shadow-lg"></div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <p className="text-gray-500 italic mb-6 text-lg">This heart is yours only for you 💕</p>
-          <button 
-            onClick={nextSection}
-            className="bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-          >
-            Continue ✨
-          </button>
-        </div>
-      </div>
-    </div>,
-
-    // Section 7: Special Cards Intro
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center p-6">
-      <div className="text-center space-y-8 animate-fade-in">
-        <Heart className="w-24 h-24 text-pink-500 mx-auto animate-pulse" />
-        <h2 className="text-5xl font-bold text-pink-600">
-          Special Cards For You
-        </h2>
-        <p className="text-gray-600 text-xl">
-          Click each card to see message! 💌
-        </p>
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-110 shadow-2xl"
-        >
-          Show Cards 💕
-        </button>
-      </div>
-    </div>,
-
-    // Section 8: Interactive Cards
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-6">
-      <div className="max-w-5xl w-full space-y-8 animate-fade-in">
-        <h2 className="text-5xl font-bold text-center text-pink-600">
-          Special Cards For You
-        </h2>
-        <p className="text-center text-gray-600 text-xl">Click each card!</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              onClick={() => toggleCard(card.id)}
-              className="cursor-pointer perspective-1000"
-            >
-              <div className={`relative w-full h-80 transition-transform duration-700 transform-style-3d ${flippedCards[card.id] ? 'rotate-y-180' : ''}`}>
-                <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-pink-400 to-purple-400 rounded-2xl shadow-2xl flex items-center justify-center hover:shadow-3xl transition-shadow border-4 border-white">
-                  <span className="text-8xl">{card.front}</span>
-                </div>
-                <div className="absolute w-full h-full backface-hidden bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl shadow-2xl flex items-center justify-center rotate-y-180 border-4 border-white">
-                  <div className="text-center p-6">
-                    <span className="text-3xl font-bold text-white block mb-4">{card.back}</span>
-                    <span className="text-lg text-white/90 italic block mb-4">{card.message}</span>
-                    <div className="text-5xl animate-bounce">💖</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <button 
-            onClick={nextSection}
-            className="bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-          >
-            Continue ✨
-          </button>
-        </div>
-      </div>
-    </div>,
-
-    // Section 9: Promise
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-6">
-      <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in">
-        <Sparkles className="w-20 h-20 text-purple-500 mx-auto animate-pulse" />
-        <h2 className="text-5xl font-bold text-purple-600">My Promise To You</h2>
-        
-        <div className="bg-white/90 backdrop-blur p-10 rounded-2xl shadow-2xl space-y-6 border-4 border-purple-200">
-          <div className="space-y-4 text-left">
-            <p className="text-gray-700 text-lg leading-relaxed flex items-start">
-              <span className="text-3xl mr-4">💝</span>
-              <span>I will always be there for you when you needs me</span>
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed flex items-start">
-              <span className="text-3xl mr-4">🌟</span>
-              <span>I will make you smile everyday</span>
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed flex items-start">
-              <span className="text-3xl mr-4">🤗</span>
-              <span>I will keeps you safe and protected always</span>
-            </p>
-            <p className="text-gray-700 text-lg leading-relaxed flex items-start">
-              <span className="text-3xl mr-4">💕</span>
-              <span>I will love you more and more each day</span>
-            </p>
-          </div>
-        </div>
-
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-purple-500 hover:bg-purple-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-        >
-          Continue ✨
-        </button>
-      </div>
-    </div>,
-
-    // Section 10: Transition
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center p-6">
-      <div className="text-center space-y-8 animate-fade-in">
-        <div className="animate-spin-slow text-8xl">💕</div>
-        <p className="text-3xl text-pink-600 font-bold">Something special is coming...</p>
-        <div className="flex justify-center space-x-2">
-          <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{animationDelay: '0s'}}></div>
-          <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-          <div className="w-3 h-3 bg-pink-500 rounded-full animate-bounce" style={{animationDelay: '0.4s'}}></div>
-        </div>
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all"
-        >
-          Continue
-        </button>
-      </div>
-    </div>,
-
-    // Section 11: Final Love Letter
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-6">
-      <div className="max-w-2xl mx-auto text-center space-y-8 animate-fade-in">
-        <div className="text-8xl mb-6 animate-bounce">💌</div>
-        <h2 className="text-5xl font-bold text-pink-600">My Heart Words</h2>
-        <p className="text-gray-600 italic text-xl">What I really wants to tell you...</p>
-        
-        <div className="bg-white/90 backdrop-blur p-10 rounded-2xl shadow-2xl space-y-6 text-left border-4 border-pink-200">
-          <p className="text-gray-700 leading-relaxed text-lg">
-            You are like stars I looks at every night and the songs that makes me feel happy. You really makes my days better and bright.
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Every moment with you is special for me. Every time we laughs together becomes memory I keeps in my heart. You make normal days feels amazing.
-          </p>
-          <p className="text-gray-700 leading-relaxed text-lg">
-            Thank you for being you. Thank you for being mine.
-          </p>
-        </div>
-
-        <div className="mt-12">
-          <div className="relative inline-block">
-            <Mail className="w-40 h-40 text-blue-400 animate-pulse" />
-            <Heart className="w-16 h-16 text-red-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-heartbeat" fill="currentColor" />
-          </div>
-          <p className="text-gray-600 mt-6 text-lg">Sealing this letter with love...</p>
-          <p className="text-sm text-gray-500 mt-2">Don't stops now the best part is coming...</p>
-        </div>
-
-        <button 
-          onClick={nextSection}
-          className="mt-8 bg-pink-500 hover:bg-pink-600 text-white px-10 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-xl"
-        >
-          Seal The Letter ✨
-        </button>
-      </div>
-    </div>,
-
-    // Section 12: Beautiful Final Page
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-pink-100 flex items-center justify-center p-6 relative overflow-hidden">
-      {hearts.map(heart => (
-        <div
-          key={heart.id}
-          className="absolute text-pink-400 pointer-events-none animate-float-up"
-          style={{
-            left: `${heart.left}%`,
-            fontSize: `${heart.size}px`,
-            animationDelay: `${heart.delay}s`,
-            animationDuration: `${heart.duration}s`
-          }}
-        >
-          ❤️
-        </div>
-      ))}
-
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-yellow-300 animate-twinkle"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              fontSize: `${10 + Math.random() * 25}px`
-            }}
-          >
-            ✨
-          </div>
-        ))}
-      </div>
-
-      <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in relative z-10">
-        <div className="relative inline-block mb-6">
-          <div className="w-40 h-40 bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 rounded-full flex items-center justify-center animate-pulse-glow shadow-2xl">
-            <Heart className="w-20 h-20 text-white animate-heartbeat" fill="currentColor" />
-          </div>
-          <div className="absolute -inset-6 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full blur-2xl opacity-50 animate-pulse"></div>
-        </div>
-
-        <h2 className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600 animate-gradient mb-6">
-          Sealed With Love
-        </h2>
-        
-        <div className="space-y-6 mb-8">
-          <p className="text-4xl md:text-5xl font-bold text-gray-800 animate-bounce-slow">
-            I Love You So Much 💕
-          </p>
-
-          <div className="flex justify-center space-x-3 my-6">
-            {[...Array(9)].map((_, i) => (
-              <Heart 
-                key={i} 
-                className="w-8 h-8 text-pink-500 animate-bounce" 
-                fill="currentColor"
-                style={{animationDelay: `${i * 0.1}s`}}
-              />
-            ))}
-          </div>
-
-          <p className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 animate-pulse">
-            Forever Yours 💕
-          </p>
-        </div>
-
-        <div className="bg-white/50 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border-4 border-pink-300 mb-8">
-          <p className="text-gray-700 font-bold text-xl mb-4">{dateString}</p>
-          <p className="text-pink-600 italic text-xl leading-relaxed mb-4">
-            "No matter how crazy the world gets you are my calm. No matter how uncertain life is you are my sure thing. Forever and always you are mine." 💖
-          </p>
-          <p className="text-gray-600 text-lg mt-4">
-            You makes everything better just by being there. I am so lucky to have you in my life.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <button 
-            onClick={restartExperience}
-            className="block w-full bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 text-white px-10 py-5 rounded-full font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105 animate-shimmer"
-          >
-            See It Again ✨
-          </button>
-          <button 
-            className="block w-full bg-gradient-to-r from-green-400 via-teal-400 to-green-400 text-white px-10 py-5 rounded-full font-bold text-xl shadow-2xl hover:shadow-3xl transition-all transform hover:scale-105"
-          >
-            Send Virtual Kiss 💋
-          </button>
-        </div>
-
-        <div className="mt-8 p-6 bg-pink-50 rounded-2xl border-2 border-pink-200">
-          <p className="text-base text-gray-600 animate-pulse">
-            Made with lots of love only for you 💕✨
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            From Your Jaan
-          </p>
-        </div>
-      </div>
-    </div>
-  ];
-
-  return (
-    <div className="font-sans">
-      <audio ref={audioRef} preload="auto" crossOrigin="anonymous" />
-      <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
-        @keyframes float-up {
-          0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: #b8dff0;
+            cursor: default;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow-x: hidden;
+            transition: background 2s ease;
+        }
+        body.celebrating {
+            background: #1a1a3e;
+        }
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .sky-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(180deg, #c9e8f7 0%, #e8f4f8 30%, #fdf2e9 65%, #fce4d6 100%);
+            transition: background 3s ease;
+        }
+        body.celebrating .sky-layer {
+            background: linear-gradient(180deg, #1a1a3e 0%, #2d1b4e 30%, #3d2058 60%, #1a1a3e 100%);
+        }
+        .clouds-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.85;
+            animation: floatCloud linear infinite;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.6);
+        }
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+        .cloud::before {
+            width: 60%;
+            height: 70%;
+            top: -40%;
+            left: 15%;
+        }
+        .cloud::after {
+            width: 50%;
+            height: 55%;
+            top: -25%;
+            left: 45%;
+        }
+        .cloud.c1 {
+            width: 140px;
+            height: 55px;
+            top: 8%;
+            animation-duration: 35s;
+            left: -160px;
+        }
+        .cloud.c2 {
+            width: 110px;
+            height: 45px;
+            top: 18%;
+            animation-duration: 42s;
+            left: -130px;
+            animation-delay: -15s;
+        }
+        .cloud.c3 {
+            width: 160px;
+            height: 60px;
+            top: 5%;
+            animation-duration: 38s;
+            left: -180px;
+            animation-delay: -25s;
+        }
+        .cloud.c4 {
+            width: 100px;
+            height: 40px;
+            top: 22%;
+            animation-duration: 30s;
+            left: -120px;
+            animation-delay: -8s;
+        }
+        .cloud.c5 {
+            width: 130px;
+            height: 50px;
+            top: 12%;
+            animation-duration: 45s;
+            left: -150px;
+            animation-delay: -20s;
+        }
+        @keyframes floatCloud {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(calc(100vw + 400px));
+            }
+        }
+        .garden-world {
+            position: relative;
+            z-index: 2;
+            pointer-events: auto;
+        }
+        .garden-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 40px 20px;
+            transition: all 1s ease;
+        }
+        .garden-section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(180deg, transparent 0%, rgba(126, 201, 126, 0.5) 40%, rgba(93, 168, 93, 0.7) 100%);
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+        }
+        body.celebrating .garden-section::before {
+            background: linear-gradient(180deg, transparent 0%, rgba(100, 70, 140, 0.5) 40%, rgba(60, 30, 80, 0.7) 100%);
+        }
+        .section-content {
+            text-align: center;
+            z-index: 3;
+            max-width: 700px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.55);
+            border-radius: 28px;
+            padding: 35px 28px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            transition: all 1.5s ease;
+        }
+        body.celebrating .section-content {
+            background: rgba(40, 25, 60, 0.7);
+            border-color: rgba(255, 200, 230, 0.4);
+            box-shadow: 0 8px 50px rgba(180, 120, 220, 0.25);
+            color: #f0e0f8;
+        }
+        .area-icon {
+            font-size: 60px;
+            display: block;
+            margin-bottom: 12px;
+            animation: gentleBounce 2.5s ease-in-out infinite;
+        }
+        @keyframes gentleBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-14px);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+            70% {
+                transform: translateY(-18px);
+            }
+            85% {
+                transform: translateY(-6px);
+            }
+        }
+        .area-title {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #4a3728;
+            margin: 8px 0;
+            letter-spacing: 0.02em;
+            transition: color 1.5s ease;
+        }
+        body.celebrating .area-title {
+            color: #f8d0e8;
+        }
+        .area-desc {
+            font-size: 1rem;
+            color: #6b5b4f;
+            line-height: 1.6;
+            transition: color 1.5s ease;
+        }
+        body.celebrating .area-desc {
+            color: #dcc8f0;
+        }
+        #wish-tree-section {
+            min-height: 130vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .wish-tree-container {
+            position: relative;
+            width: 300px;
+            height: 500px;
+            margin: 0 auto;
+        }
+        .tree-trunk {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 180px;
+            background: linear-gradient(180deg, #a0724a 0%, #6b3f2a 100%);
+            border-radius: 20px 20px 30px 30px;
+            z-index: 2;
+            box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .tree-canopy {
+            position: absolute;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 240px;
+            height: 260px;
+            background: radial-gradient(ellipse at center, #7cc47c 0%, #4a9e4a 60%, #3d7a3d 100%);
+            border-radius: 50% 50% 45% 45%;
+            z-index: 3;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), inset 0 -30px 50px rgba(0, 0, 0, 0.1);
+            transition: all 2s ease;
+        }
+        .tree-sparkles {
+            position: absolute;
+            bottom: 160px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 280px;
+            z-index: 4;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        body.celebrating .tree-sparkles {
+            opacity: 1;
+            animation: sparkleGlow 1.5s ease-in-out infinite;
+        }
+        @keyframes sparkleGlow {
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.8) drop-shadow(0 0 25px gold);
+            }
+        }
+        .tree-light {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #ffe9a0;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffe070, 0 0 25px #ffd700;
+            animation: twinkle 2s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        body.celebrating .tree-light {
+            opacity: 1;
         }
         @keyframes twinkle {
-          0%, 100% { opacity: 0; transform: scale(0); }
-          50% { opacity: 1; transform: scale(1); }
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.8);
+            }
         }
-        @keyframes heartbeat {
-          0%, 100% { transform: scale(1); }
-          25% { transform: scale(1.15); }
-          50% { transform: scale(1); }
-          75% { transform: scale(1.2); }
+        .tree-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+            text-shadow: 0 0 30px #ffd700, 0 0 60px #ff9f00;
+            transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            letter-spacing: 0.04em;
         }
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.6); }
-          50% { box-shadow: 0 0 60px rgba(236, 72, 153, 0.9); }
+        body.celebrating .tree-message {
+            transform: translate(-50%, -50%) scale(1);
+            animation: messageGlow 2s ease-in-out infinite;
         }
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+        @keyframes messageGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 30px #ffd700, 0 0 60px #ff9f00;
+            }
+            50% {
+                text-shadow: 0 0 50px #fff, 0 0 90px #ffd700, 0 0 120px #ff9f00;
+            }
         }
-        @keyframes shimmer {
-          0% { background-position: -200% center; }
-          100% { background-position: 200% center; }
+        .character {
+            display: inline-block;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 5;
+            animation: charIdle 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
+            margin: 0 4px;
         }
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-15px); }
+        .character:hover {
+            transform: scale(1.25);
+            z-index: 20;
         }
-        @keyframes music-bar {
-          0%, 100% { height: 1.5rem; }
-          50% { height: 3rem; }
+        .character:active {
+            transform: scale(1.4);
         }
-        @keyframes progress {
-          0% { width: 0%; }
-          100% { width: 100%; }
+        @keyframes charIdle {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-8px) rotate(-2deg);
+            }
+            50% {
+                transform: translateY(-2px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-10px) rotate(2deg);
+            }
         }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        .char-bunny {
+            animation: bunnyHop 2s ease-in-out infinite;
         }
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
+        @keyframes bunnyHop {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-25px);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+            70% {
+                transform: translateY(-20px);
+            }
         }
-        .animate-float-up {
-          animation: float-up linear forwards;
+        .char-bird {
+            animation: birdFly 4s ease-in-out infinite;
         }
-        .animate-twinkle {
-          animation: twinkle 2s ease-in-out infinite;
+        @keyframes birdFly {
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(30px, -30px) rotate(-8deg);
+            }
+            50% {
+                transform: translate(10px, -10px) rotate(0deg);
+            }
+            75% {
+                transform: translate(-20px, -25px) rotate(8deg);
+            }
         }
-        .animate-heartbeat {
-          animation: heartbeat 1.5s ease-in-out infinite;
+        .char-butterfly {
+            animation: butterflyFloat 5s ease-in-out infinite;
         }
-        .animate-pulse-glow {
-          animation: pulse-glow 2s ease-in-out infinite;
+        @keyframes butterflyFloat {
+            0%,
+            100% {
+                transform: translate(0, 0) scaleX(1);
+            }
+            20% {
+                transform: translate(40px, -35px) scaleX(-1);
+            }
+            40% {
+                transform: translate(-25px, -20px) scaleX(1);
+            }
+            60% {
+                transform: translate(20px, -40px) scaleX(-1);
+            }
+            80% {
+                transform: translate(-35px, -15px) scaleX(1);
+            }
         }
-        .animate-gradient {
-          background-size: 200% auto;
-          animation: gradient 3s ease infinite;
+        .char-duck {
+            animation: duckWaddle 3.5s ease-in-out infinite;
         }
-        .animate-shimmer {
-          background-size: 200% auto;
-          animation: shimmer 3s linear infinite;
+        @keyframes duckWaddle {
+            0%,
+            100% {
+                transform: translateX(0) rotate(0deg);
+            }
+            25% {
+                transform: translateX(20px) rotate(-5deg);
+            }
+            50% {
+                transform: translateX(0) rotate(0deg);
+            }
+            75% {
+                transform: translateX(-20px) rotate(5deg);
+            }
         }
-        .animate-bounce-slow {
-          animation: bounce-slow 2s ease-in-out infinite;
+        .char-fairy {
+            animation: fairyFloat 4s ease-in-out infinite;
         }
-        .animate-music-bar {
-          animation: music-bar 0.8s ease-in-out infinite;
+        @keyframes fairyFloat {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(15px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-10px, -15px) scale(0.95);
+            }
+            75% {
+                transform: translate(20px, -35px) scale(1.08);
+            }
         }
-        .animate-progress {
-          animation: progress 30s linear infinite;
+        .char-teddy {
+            animation: teddySit 4s ease-in-out infinite;
         }
-        .animate-spin-slow {
-          animation: spin-slow 3s linear infinite;
+        @keyframes teddySit {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            40% {
+                transform: translateY(-6px) rotate(-3deg);
+            }
+            70% {
+                transform: translateY(-2px) rotate(2deg);
+            }
         }
-        .perspective-1000 {
-          perspective: 1000px;
+        .char-panda {
+            animation: pandaRoll 5s ease-in-out infinite;
         }
-        .transform-style-3d {
-          transform-style: preserve-3d;
+        @keyframes pandaRoll {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            30% {
+                transform: translateY(-5px) rotate(-8deg);
+            }
+            60% {
+                transform: translateY(-3px) rotate(6deg);
+            }
         }
-        .backface-hidden {
-          backface-visibility: hidden;
+        .speech-bubble {
+            display: inline-block;
+            background: white;
+            border-radius: 16px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            color: #4a3728;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            white-space: nowrap;
+            z-index: 25;
+            margin-left: 6px;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        .rotate-y-180 {
-          transform: rotateY(180deg);
+        .character:hover+.speech-bubble,
+        .character:active+.speech-bubble {
+            opacity: 1;
         }
-      `}</style>
-      {sections[currentSection]}
+        .speech-bubble.show {
+            opacity: 1;
+        }
+        .cake-stage {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .cake-stage:hover {
+            transform: scale(1.05);
+        }
+        .cake-display {
+            font-size: 100px;
+            transition: all 0.8s ease;
+            display: block;
+        }
+        .cake-progress-bar {
+            width: 200px;
+            height: 8px;
+            background: #e8ddd0;
+            border-radius: 4px;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+        .cake-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f9c74f, #f8a5c2, #c9b1db);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+        .cake-label {
+            font-size: 0.9rem;
+            color: #6b5b4f;
+            margin-top: 4px;
+        }
+        .floating-petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 50;
+            font-size: 20px;
+            animation: petalFall linear forwards;
+        }
+        @keyframes petalFall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) translateX(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) translateX(120px);
+                opacity: 0;
+            }
+        }
+        .floating-sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 51;
+            width: 6px;
+            height: 6px;
+            background: gold;
+            border-radius: 50%;
+            animation: sparkleRise 2s ease-out forwards;
+            box-shadow: 0 0 8px gold;
+        }
+        @keyframes sparkleRise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(0);
+                opacity: 0;
+            }
+        }
+        .countdown-banner {
+            position: fixed;
+            top: 16px;
+            right: 20px;
+            z-index: 90;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 0.85rem;
+            color: #4a3728;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 1.5s ease;
+            pointer-events: auto;
+        }
+        body.celebrating .countdown-banner {
+            background: rgba(40, 25, 60, 0.8);
+            color: #f8d0e8;
+            border-color: rgba(255, 200, 230, 0.4);
+            box-shadow: 0 2px 20px rgba(180, 120, 220, 0.3);
+        }
+        .countdown-digits {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #e8789a;
+        }
+        body.celebrating .countdown-digits {
+            color: #ffd700;
+        }
+        .daily-gift-badge {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 89;
+            background: rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            border: 1px solid #ffd700;
+            color: #4a3728;
+            box-shadow: 0 2px 12px rgba(255, 215, 0, 0.2);
+            text-align: center;
+            line-height: 1.4;
+            max-width: 180px;
+        }
+        body.celebrating .daily-gift-badge {
+            background: rgba(255, 215, 0, 0.15);
+            color: #f8d0e8;
+            border-color: #ffd700;
+        }
+        .api-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1100;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .api-modal-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .api-modal {
+            background: rgba(255, 248, 240, 0.96);
+            border-radius: 28px;
+            padding: 32px 30px;
+            max-width: 460px;
+            width: 92%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalPop {
+            0% {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .api-modal h2 {
+            color: #4a3728;
+            margin-bottom: 8px;
+            font-size: 1.4rem;
+        }
+        .api-modal p {
+            color: #6b5b4f;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .api-modal input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #ddd;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border 0.3s ease;
+            background: white;
+        }
+        .api-modal input:focus {
+            border-color: #c9b1db;
+        }
+        .api-modal .btn-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .api-modal .btn-row button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .api-modal .btn-primary {
+            background: #c9b1db;
+            color: #4a3728;
+        }
+        .api-modal .btn-primary:hover {
+            background: #b89acb;
+            transform: scale(1.04);
+        }
+        .api-modal .btn-secondary {
+            background: #eee;
+            color: #6b5b4f;
+        }
+        .api-modal .btn-secondary:hover {
+            background: #ddd;
+        }
+        .api-modal .hint {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 12px;
+        }
+        .api-modal .hint a {
+            color: #a884c9;
+            text-decoration: none;
+        }
+        .api-modal .hint a:hover {
+            text-decoration: underline;
+        }
+        .api-status {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #4a3728;
+            min-height: 24px;
+        }
+        .api-status.success {
+            color: #2d8a4e;
+        }
+        .api-status.error {
+            color: #c0392b;
+        }
+        .chat-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            z-index: 95;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid rgba(200, 150, 220, 0.6);
+            cursor: pointer;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        .chat-toggle.active {
+            background: #c9b1db;
+            border-color: #a884c9;
+        }
+        .chat-toggle .badge-ai {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #6bceff;
+            color: #fff;
+            font-size: 10px;
+            border-radius: 10px;
+            padding: 1px 7px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(107, 206, 255, 0.4);
+            font-family: sans-serif;
+        }
+        .chat-toggle .badge-ai.offline {
+            background: #aaa;
+        }
+        .chat-window {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            width: 340px;
+            max-height: 500px;
+            z-index: 96;
+            background: rgba(255, 248, 240, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .chat-window.open {
+            display: flex;
+        }
+        .chat-header {
+            background: rgba(200, 150, 220, 0.3);
+            padding: 12px 16px;
+            font-weight: bold;
+            color: #4a3728;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .chat-header .chat-ai-status {
+            font-size: 0.7rem;
+            font-weight: normal;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .chat-header .chat-ai-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .chat-header .chat-ai-status .dot.online {
+            background: #2d8a4e;
+        }
+        .chat-header .chat-ai-status .dot.offline {
+            background: #aaa;
+        }
+        .chat-header .close-chat {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #6b5b4f;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 12px 16px;
+            overflow-y: auto;
+            max-height: 320px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 120px;
+        }
+        .chat-message {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .chat-message .avatar {
+            font-size: 28px;
+            min-width: 36px;
+            text-align: center;
+        }
+        .chat-message .bubble {
+            background: #fff;
+            padding: 8px 14px;
+            border-radius: 18px 18px 18px 4px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+            max-width: 80%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .chat-message.user .bubble {
+            background: #c9b1db;
+            border-radius: 18px 18px 4px 18px;
+            margin-left: auto;
+        }
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+        .chat-message .bubble .thinking-dots {
+            display: inline-flex;
+            gap: 4px;
+            padding: 4px 0;
+        }
+        .chat-message .bubble .thinking-dots span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #aaa;
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite ease-in-out both;
+        }
+        .chat-message .bubble .thinking-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .chat-message .bubble .thinking-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        .chat-message .bubble .thinking-dots span:nth-child(3) {
+            animation-delay: 0s;
+        }
+        @keyframes typingBounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 10px 12px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            flex-shrink: 0;
+        }
+        .chat-input-area input {
+            flex: 1;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.7);
+            font-family: inherit;
+        }
+        .chat-input-area button {
+            background: #c9b1db;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #4a3728;
+            font-weight: bold;
+            transition: background 0.2s;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .chat-input-area button:hover {
+            background: #b89acb;
+        }
+        .chat-character-select {
+            display: flex;
+            gap: 4px;
+            padding: 6px 10px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+        }
+        .chat-character-select button {
+            background: transparent;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .chat-character-select button.active {
+            background: #c9b1db;
+            border-color: #a884c9;
+            font-weight: bold;
+        }
+        .chat-character-select button:hover {
+            background: #e6d8f0;
+        }
+        .toggle-button {
+            position: fixed;
+            bottom: 20px;
+            z-index: 90;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .toggle-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
+        }
+        .music-toggle {
+            right: 20px;
+        }
+        .music-toggle.playing {
+            animation: musicPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes musicPulse {
+            0%,
+            100% {
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            }
+            50% {
+                box-shadow: 0 2px 25px rgba(200, 150, 220, 0.5);
+            }
+        }
+        .speech-toggle {
+            right: 74px;
+        }
+        .speech-toggle.muted {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+        .celebration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        .celebration-overlay.active {
+            opacity: 1;
+        }
+        .big-happy-birthday {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 40px #ffd700, 0 0 80px #ff9f00, 0 0 120px #ff6f00;
+            animation: bigTextAppear 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            pointer-events: none;
+            white-space: pre-wrap;
+        }
+        @keyframes bigTextAppear {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .final-stage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 998;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+        }
+        .final-stage.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .final-message-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: cardFloat 3s ease-in-out infinite;
+        }
+        @keyframes cardFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+        .final-message-card h2 {
+            font-size: 1.6rem;
+            color: #4a3728;
+            margin-bottom: 16px;
+        }
+        .final-message-card .wishes {
+            font-size: 1rem;
+            color: #6b5b4f;
+            line-height: 2;
+        }
+        .final-characters {
+            font-size: 40px;
+            margin-top: 20px;
+            letter-spacing: 6px;
+        }
+        @media (max-width: 600px) {
+            .garden-section {
+                min-height: 70vh;
+                padding: 24px 12px;
+            }
+            .section-content {
+                padding: 22px 16px;
+                border-radius: 20px;
+            }
+            .area-icon {
+                font-size: 42px;
+            }
+            .area-title {
+                font-size: 1.3rem;
+            }
+            .area-desc {
+                font-size: 0.9rem;
+            }
+            .wish-tree-container {
+                width: 200px;
+                height: 360px;
+            }
+            .tree-canopy {
+                width: 170px;
+                height: 190px;
+                bottom: 120px;
+            }
+            .tree-trunk {
+                width: 36px;
+                height: 130px;
+                bottom: 30px;
+            }
+            .tree-sparkles {
+                width: 190px;
+                height: 210px;
+                bottom: 120px;
+            }
+            .tree-message {
+                font-size: 1.1rem;
+            }
+            .cake-display {
+                font-size: 65px;
+            }
+            .character {
+                font-size: 28px;
+            }
+            .countdown-banner {
+                top: 8px;
+                right: 8px;
+                padding: 7px 12px;
+                font-size: 0.7rem;
+            }
+            .countdown-digits {
+                font-size: 0.9rem;
+            }
+            .daily-gift-badge {
+                top: 70px;
+                right: 8px;
+                font-size: 0.7rem;
+                padding: 6px 10px;
+                max-width: 140px;
+            }
+            .chat-window {
+                width: 300px;
+                right: 10px;
+                bottom: 130px;
+                max-height: 420px;
+            }
+            .chat-toggle {
+                bottom: 70px;
+                right: 10px;
+                width: 44px;
+                height: 44px;
+                font-size: 22px;
+            }
+            .speech-toggle {
+                right: 64px;
+                bottom: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .music-toggle {
+                right: 10px;
+                bottom: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .api-modal {
+                padding: 24px 18px;
+            }
+            .chat-messages {
+                max-height: 240px;
+            }
+            .chat-character-select button {
+                font-size: 0.7rem;
+                padding: 2px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sky & Clouds -->
+    <div class="sky-layer" id="skyLayer"></div>
+    <div class="clouds-container">
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+        <div class="cloud c4"></div>
+        <div class="cloud c5"></div>
     </div>
-  );
-};
 
+    <!-- Particles Canvas -->
+    <canvas id="particlesCanvas"></canvas>
 
-export default PrincessDayExperience;
+    <!-- Countdown -->
+    <div class="countdown-banner" id="countdownBanner">
+        🌸 Days until surprise: <span class="countdown-digits" id="countdownDigits">...</span>
+    </div>
+
+    <!-- Daily Gift -->
+    <div class="daily-gift-badge" id="dailyGiftBadge">
+        🎁 Today's gift from <span id="giftChar">🌸</span><br>
+        <span id="giftMessage">✨</span>
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="api-modal-overlay" id="apiModal">
+        <div class="api-modal">
+            <h2>🤖 True AI Chat Setup</h2>
+            <p>For real understanding, enter your <strong>Hugging Face API key</strong>.<br>
+                Get one free at <a href="https://huggingface.co/settings/tokens" target="_blank">huggingface.co/settings/tokens</a>.<br>
+                <span style="font-size:0.85rem;opacity:0.7;">Or click "Skip" for a smart offline mode.</span>
+            </p>
+            <input type="text" id="apiKeyInput" placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxx" />
+            <div class="btn-row">
+                <button class="btn-primary" id="apiSaveBtn">✅ Enable AI</button>
+                <button class="btn-secondary" id="apiSkipBtn">⏭ Skip (offline)</button>
+            </div>
+            <div class="api-status" id="apiStatus">💡 Your key stays local and is never shared.</div>
+            <div class="hint">🔑 <a href="https://huggingface.co/settings/tokens" target="_blank">Get your free API key</a></div>
+        </div>
+    </div>
+
+    <!-- Chat -->
+    <button class="chat-toggle" id="chatToggle" title="Talk to characters">
+        💬
+        <span class="badge-ai" id="aiBadge">AI</span>
+    </button>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <span>🌸 Garden Chat</span>
+            <span class="chat-ai-status" id="chatAiStatus">
+                <span class="dot" id="aiStatusDot"></span>
+                <span id="aiStatusText">AI ready</span>
+            </span>
+            <button class="close-chat" id="closeChat">✕</button>
+        </div>
+        <div class="chat-character-select" id="chatCharSelect">
+            <button data-char="🐰" class="active">🐰 Bunny</button>
+            <button data-char="🐦">🐦 Bird</button>
+            <button data-char="🦋">🦋 Butterfly</button>
+            <button data-char="🦆">🦆 Duck</button>
+            <button data-char="🧚">🧚 Fairy</button>
+            <button data-char="🧸">🧸 Teddy</button>
+            <button data-char="🐼">🐼 Panda</button>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message">
+                <span class="avatar">🌸</span>
+                <span class="bubble">Hello! I'm your AI friend. Talk to me about anything! 🌸</span>
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type a message..." />
+            <button id="chatSend">Send</button>
+        </div>
+    </div>
+
+    <!-- Toggles -->
+    <button class="toggle-button music-toggle playing" id="musicToggle" title="Toggle music">🎵</button>
+    <button class="toggle-button speech-toggle" id="speechToggle" title="Toggle speech">🔊</button>
+
+    <!-- Hidden audio -->
+    <audio id="bgMusic" loop preload="auto" style="display:none;">
+        <source src="https://github.com/Rupeshpandey09/bahut-pyar/raw/refs/heads/main/Bahut%20Pyar%20Karte%20Hain%20(New%20Lyrics)%20FULL%20VERSION%20-%20JalRaj%20_%20New%20Hindi%20Covers%20_%2090s%20Songs%20%5BMykfQyqQuJ4%5D.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfxSparkle" preload="auto" style="display:none;">
+        <source src="https://github.com/Rupeshpandey09/4/raw/refs/heads/main/Muskurane%20Ki%20wajah%20Tum%20Ho%20Instrumental%20Ringtone%20_%20official%20musician%20%5BT0xt1NORgC0%5D.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sfxCelebration" preload="auto" style="display:none;">
+        <source src="https://github.com/Rupeshpandey09/6/raw/refs/heads/main/Tum%20Hi%20Ho%20Song%20__%20Aashiqui%202%20__%20Arijit%20Singh%20__%20WhatsApp%20Status%20__%20Black%20Screen%20Status%20__%20Lyrics%20%5Bnj2RXbrwILo%5D.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Celebration -->
+    <div class="celebration-overlay" id="celebrationOverlay">
+        <div class="big-happy-birthday" id="bigHappyBirthday"></div>
+    </div>
+
+    <!-- Final -->
+    <div class="final-stage" id="finalStage">
+        <div class="final-message-card">
+            <h2>🌸 Happy Birthday, Princess! 🌸</h2>
+            <div class="wishes">
+                ❤️ Lots of happiness<br>🌸 Good health always<br>✨ Success in everything<br>
+                🌈 Beautiful dreams come true<br>😊 Many many smiles<br>🎂 A wonderful birthday<br>💖 You are so loved
+            </div>
+            <div class="final-characters">🐰🧸🐼🐦🦋🦆🧚</div>
+            <p style="margin-top:16px;color:#6b5b4f;font-size:0.85rem;">
+                — With love from all your secret garden friends 🌸
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== GARDEN WORLD ==================== -->
+    <div class="garden-world" id="gardenWorld">
+
+        <section class="garden-section" id="section-entrance">
+            <div class="section-content">
+                <span class="area-icon">🌸</span>
+                <div class="area-title">The Secret Birthday Garden</div>
+                <p class="area-desc">Welcome! Every day a new surprise waits.<br>Talk to the animals — they have gifts for you!<br>💬 Tap the chat bubble to start.</p>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-flowers">
+            <div class="section-content">
+                <span class="area-icon">🌷</span>
+                <div class="area-title">🌸 Flower Garden</div>
+                <p class="area-desc">Beautiful flowers bloom with daily wishes.<br>Each petal holds a new message from your friends.</p>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+                <span class="character" data-char="🐝">🐝</span>
+                <span class="character char-bunny" data-char="🐰">🐰</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-butterflies">
+            <div class="section-content">
+                <span class="area-icon">🦋</span>
+                <div class="area-title">🦋 Butterfly Garden</div>
+                <p class="area-desc">Butterflies bring daily sparkles.<br>Each one carries a special gift just for you.</p>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-pond">
+            <div class="section-content">
+                <span class="area-icon">🦆</span>
+                <div class="area-title">🦆 Duck Pond</div>
+                <p class="area-desc">Ducks waddle with daily news.<br>They love to chat and share little treasures.</p>
+                <span class="character char-duck" data-char="🦆">🦆</span>
+                <span class="character char-duck" data-char="🦆">🦆</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-rainbow">
+            <div class="section-content">
+                <span class="area-icon">🌈</span>
+                <div class="area-title">🌈 Rainbow Bridge</div>
+                <p class="area-desc">Walk across and make a wish.<br>Each day a new color shines brighter.</p>
+            </div>
+        </section>
+
+        <section class="garden-section" id="wish-tree-section">
+            <div class="section-content" style="background:transparent;box-shadow:none;border:none;backdrop-filter:none;-webkit-backdrop-filter:none;">
+                <span class="area-icon">🌳</span>
+                <div class="area-title" style="margin-bottom:20px;">🌳 The Big Wish Tree</div>
+                <p class="area-desc" style="margin-bottom:16px;">The heart of the garden.<br>Every day a new leaf of love appears.<br>Touch it to feel the magic.</p>
+                <div class="wish-tree-container" id="wishTreeContainer">
+                    <div class="tree-canopy" id="treeCanopy"></div>
+                    <div class="tree-trunk"></div>
+                    <div class="tree-sparkles" id="treeSparkles"></div>
+                    <div class="tree-message" id="treeMessage">Happy Birthday ❤️</div>
+                </div>
+                <p class="area-desc" style="margin-top:14px;font-style:italic;">Tap the tree to send a wish ✨</p>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-bakery">
+            <div class="section-content" id="bakeryContent">
+                <span class="area-icon">🎂</span>
+                <div class="area-title">🎂 Tiny Cake Bakery</div>
+                <p class="area-desc" id="bakeryDesc">The cake grows every day.<br>Each day a new layer of love is added.</p>
+                <div class="cake-stage" id="cakeStage">
+                    <span class="cake-display" id="cakeDisplay">🥧</span>
+                </div>
+                <div class="cake-progress-bar">
+                    <div class="cake-progress-fill" id="cakeProgressFill" style="width:30%;"></div>
+                </div>
+                <p class="cake-label" id="cakeLabel">Cake is baking... 🎂</p>
+                <span class="character char-teddy" data-char="🧸">🧸</span>
+                <span class="speech-bubble" style="position:relative;display:inline-block;margin-left:8px;">Yummy cream! 😋</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-balloons">
+            <div class="section-content">
+                <span class="area-icon">🎈</span>
+                <div class="area-title">🎈 Balloon Area</div>
+                <p class="area-desc">Balloons float with daily wishes.<br>Each one carries a message from a friend.</p>
+                <span class="character char-bunny" data-char="🐰">🐰</span>
+                <span class="character char-panda" data-char="🐼">🐼</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-gifts">
+            <div class="section-content">
+                <span class="area-icon">🎁</span>
+                <div class="area-title">🎁 Gift House</div>
+                <p class="area-desc">A house full of gifts — one for each day.<br>Open them by talking to the characters!</p>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-chocolate">
+            <div class="section-content">
+                <span class="area-icon">🍫</span>
+                <div class="area-title">🍫 Chocolate Corner</div>
+                <p class="area-desc">Sweet chocolates made with love.<br>Each day a new flavour appears.</p>
+                <span class="character char-panda" data-char="🐼">🐼</span>
+                <span class="character char-teddy" data-char="🧸">🧸</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-music">
+            <div class="section-content">
+                <span class="area-icon">🎵</span>
+                <div class="area-title">🎵 Music Corner</div>
+                <p class="area-desc">Soft music plays every day.<br>Listen to the melody of the garden.</p>
+                <span class="character char-bird" data-char="🐦">🐦</span>
+                <span class="character char-fairy" data-char="🧚">🧚</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-fairy">
+            <div class="section-content">
+                <span class="area-icon">🧚</span>
+                <div class="area-title">🧚 Fairy Area</div>
+                <p class="area-desc">The fairy sprinkles daily magic.<br>She whispers secrets and gifts.</p>
+                <span class="character char-fairy" data-char="🧚">🧚</span>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-moon">
+            <div class="section-content">
+                <span class="area-icon">🌙</span>
+                <div class="area-title">🌙 Moon Bench</div>
+                <p class="area-desc">A quiet bench under the moon.<br>For Surprise You Have to Wait </p>
+                <p class="area-desc" style="font-size:0.75rem;opacity:0.6;">(My Creator says you look like me)</p>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-cafe">
+            <div class="section-content">
+                <span class="area-icon">☕</span>
+                <div class="area-title">☕ Tiny Café</div>
+                <p class="area-desc">Warm drinks and cookies every day.<br>Friends gather to share stories.</p>
+                <span class="character char-duck" data-char="🦆">🦆</span>
+                <span class="character char-bunny" data-char="🐰">🐰</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-house">
+            <div class="section-content">
+                <span class="area-icon">🏡</span>
+                <div class="area-title">🏡 Small Wooden House</div>
+                <p class="area-desc">Cozy and warm.<br>Every day a new welcome mat appears.</p>
+                <span class="character char-teddy" data-char="🧸">🧸</span>
+                <span class="character char-panda" data-char="🐼">🐼</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-hidden-path">
+            <div class="section-content">
+                <span class="area-icon">🌼</span>
+                <div class="area-title">🌼 Hidden Flower Path</div>
+                <p class="area-desc">A secret path that changes daily.<br>Only special people find it — and you are special.</p>
+                <span class="character char-fairy" data-char="🧚">🧚</span>
+            </div>
+        </section>
+
+        <section class="garden-section" id="section-secret">
+            <div class="section-content">
+                <span class="area-icon">✨</span>
+                <div class="area-title">✨ Secret Magic Corner</div>
+                <p class="area-desc">The most magical spot.<br>Sparkles live here, and every day a new surprise appears.</p>
+                <p class="area-desc" style="margin-top:12px;">You are the reason this garden exists. 💖</p>
+                <span class="character char-butterfly" data-char="🦋">🦋</span>
+                <span class="character char-fairy" data-char="🧚">🧚</span>
+            </div>
+        </section>
+
+        <div style="height:30vh;"></div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            //  CONFIG
+            // ============================================================
+            const BIRTHDAY_DATE = new Date('2026-08-21T00:00:00');
+            // For demo: uncomment to test
+            // const BIRTHDAY_DATE = new Date(Date.now() + 60000);
+
+            // ============================================================
+            //  DOM REFS
+            // ============================================================
+            const canvas = document.getElementById('particlesCanvas');
+            const ctx = canvas.getContext('2d');
+            const countdownDigits = document.getElementById('countdownDigits');
+            const dailyGiftBadge = document.getElementById('dailyGiftBadge');
+            const giftCharSpan = document.getElementById('giftChar');
+            const giftMessageSpan = document.getElementById('giftMessage');
+            const chatToggle = document.getElementById('chatToggle');
+            const chatWindow = document.getElementById('chatWindow');
+            const closeChat = document.getElementById('closeChat');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatCharSelect = document.getElementById('chatCharSelect');
+            const musicToggle = document.getElementById('musicToggle');
+            const speechToggle = document.getElementById('speechToggle');
+            const bgMusic = document.getElementById('bgMusic');
+            const sfxSparkle = document.getElementById('sfxSparkle');
+            const sfxCelebration = document.getElementById('sfxCelebration');
+            const celebrationOverlay = document.getElementById('celebrationOverlay');
+            const bigHappyBirthday = document.getElementById('bigHappyBirthday');
+            const finalStage = document.getElementById('finalStage');
+            const wishTreeContainer = document.getElementById('wishTreeContainer');
+            const treeCanopy = document.getElementById('treeCanopy');
+            const treeSparkles = document.getElementById('treeSparkles');
+            const treeMessage = document.getElementById('treeMessage');
+            const cakeDisplay = document.getElementById('cakeDisplay');
+            const cakeProgressFill = document.getElementById('cakeProgressFill');
+            const cakeLabel = document.getElementById('cakeLabel');
+            const cakeStage = document.getElementById('cakeStage');
+            const bakeryDesc = document.getElementById('bakeryDesc');
+            const apiModal = document.getElementById('apiModal');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            const apiSaveBtn = document.getElementById('apiSaveBtn');
+            const apiSkipBtn = document.getElementById('apiSkipBtn');
+            const apiStatus = document.getElementById('apiStatus');
+            const aiBadge = document.getElementById('aiBadge');
+            const aiStatusDot = document.getElementById('aiStatusDot');
+            const aiStatusText = document.getElementById('aiStatusText');
+
+            // ============================================================
+            //  STATE
+            // ============================================================
+            let isCelebrating = false;
+            let celebrationTriggered = false;
+            let finalStageShown = false;
+            let musicPlaying = false;
+            let sparkles = [];
+            let confettiParticles = [];
+            let floatingPetals = [];
+            let animationId;
+            let moonTapCount = 0;
+            let moonTapTimer = null;
+            let treeLightsInterval = null;
+            let currentChatChar = '🐰';
+            let dailyGiftData = null;
+            let speechEnabled = true;
+            let isThinking = false;
+            let hfApiKey = null;
+            let aiMode = 'offline'; // 'online' or 'offline'
+            let chatHistory = [];
+
+            // ============================================================
+            //  CANVAS
+            // ============================================================
+            function resizeCanvas() { canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight; }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            // ============================================================
+            //  PARTICLES
+            // ============================================================
+            function createSparkle(x, y) {
+                return {
+                    x,
+                    y,
+                    size: Math.random() * 6 + 2,
+                    life: 1,
+                    decay: Math.random() * 0.02 + 0.008,
+                    vy: -Math.random() * 3 - 1,
+                    vx: (Math.random() - 0.5) * 2,
+                    color: `hsl(${Math.random()*60+30}, 90%, ${Math.random()*30+60}%)`,
+                };
+            }
+
+            function createConfetti(x, y) {
+                const colors = ['#f8a5c2', '#f9c74f', '#c9b1db', '#ff6b6b', '#6bceff', '#ffd93d', '#6bcb77', '#ff8c94'];
+                return {
+                    x,
+                    y,
+                    size: Math.random() * 10 + 5,
+                    life: 1,
+                    decay: Math.random() * 0.005 + 0.003,
+                    vy: -Math.random() * 8 - 3,
+                    vx: (Math.random() - 0.5) * 6,
+                    rotation: Math.random() * 360,
+                    rotationSpeed: (Math.random() - 0.5) * 12,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    shape: Math.random() > 0.5 ? 'rect' : 'circle',
+                };
+            }
+
+            function burstSparkles(x, y, count) { for (let i = 0; i < count; i++) sparkles.push(createSparkle(x, y)); }
+
+            function burstConfetti(x, y, count) { for (let i = 0; i < count; i++) confettiParticles.push(createConfetti(x,
+                y)); }
+
+            function updateParticles() {
+                sparkles = sparkles.filter(s => { s.y += s.vy;
+                    s.x += s.vx;
+                    s.life -= s.decay; return s.life > 0; });
+                confettiParticles = confettiParticles.filter(c => { c.y += c.vy;
+                    c.x += c.vx;
+                    c.vy += 0.12;
+                    c.life -= c.decay;
+                    c.rotation += c.rotationSpeed; return c.life > 0; });
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                sparkles.forEach(s => {
+                    ctx.save();
+                    ctx.globalAlpha = s.life;
+                    ctx.fillStyle = s.color;
+                    ctx.shadowColor = s.color;
+                    ctx.shadowBlur = 12;
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+                confettiParticles.forEach(c => {
+                    ctx.save();
+                    ctx.globalAlpha = c.life;
+                    ctx.fillStyle = c.color;
+                    ctx.translate(c.x, c.y);
+                    ctx.rotate(c.rotation * Math.PI / 180);
+                    if (c.shape === 'rect') ctx.fillRect(-c.size / 2, -c.size / 4, c.size, c.size / 2);
+                    else { ctx.beginPath();
+                        ctx.arc(0, 0, c.size / 2, 0, Math.PI * 2);
+                        ctx.fill(); }
+                    ctx.restore();
+                });
+            }
+
+            function animateCanvas() { updateParticles();
+                drawParticles();
+                animationId = requestAnimationFrame(animateCanvas); }
+            animateCanvas();
+
+            // ============================================================
+            //  FLOATING PETALS
+            // ============================================================
+            function spawnPetal() {
+                if (floatingPetals.length > 40) return;
+                const petal = document.createElement('span');
+                petal.className = 'floating-petal';
+                petal.textContent = ['🌸', '💮', '🌷', '🪷', '🌺'][Math.floor(Math.random() * 5)];
+                petal.style.left = Math.random() * 90 + '%';
+                petal.style.top = '-30px';
+                petal.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                petal.style.fontSize = (Math.random() * 16 + 14) + 'px';
+                document.body.appendChild(petal);
+                floatingPetals.push(petal);
+                setTimeout(() => { if (petal.parentNode) { petal.remove();
+                        floatingPetals = floatingPetals.filter(p => p !== petal); } }, parseFloat(petal.style
+                    .animationDuration) * 1000 + 500);
+            }
+            setInterval(spawnPetal, 2500);
+
+            // ============================================================
+            //  TREE LIGHTS
+            // ============================================================
+            function generateTreeLights() {
+                treeSparkles.innerHTML = '';
+                const sparklesRect = treeSparkles.getBoundingClientRect();
+                for (let i = 0; i < 35; i++) {
+                    const light = document.createElement('div');
+                    light.className = 'tree-light';
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = Math.random() * 80 + 15;
+                    const cx = sparklesRect.width / 2,
+                        cy = sparklesRect.height / 2;
+                    light.style.left = (cx + Math.cos(angle) * radius) + 'px';
+                    light.style.top = (cy + Math.sin(angle) * radius * 0.7) + 'px';
+                    light.style.animationDelay = (Math.random() * 3) + 's';
+                    light.style.width = (Math.random() * 7 + 5) + 'px';
+                    light.style.height = light.style.width;
+                    treeSparkles.appendChild(light);
+                }
+            }
+            generateTreeLights();
+            window.addEventListener('resize', generateTreeLights);
+
+            // ============================================================
+            //  SOUND FX (Web Audio)
+            // ============================================================
+            let audioCtx = null;
+
+            function getAudioCtx() {
+                if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                return audioCtx;
+            }
+
+            function playTone(freq, duration, type = 'sine', volume = 0.15) {
+                try {
+                    const ctx = getAudioCtx();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(volume, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime);
+                    osc.stop(ctx.currentTime + duration);
+                } catch (e) {}
+            }
+
+            function playBoing() { playTone(600, 0.2, 'square', 0.1);
+                setTimeout(() => playTone(900, 0.15, 'square', 0.08), 100); }
+
+            function playChime() { playTone(1000, 0.3, 'sine', 0.12);
+                setTimeout(() => playTone(1300, 0.25, 'sine', 0.1), 150); }
+
+            function playSparkleSound() { playTone(2000, 0.1, 'sine', 0.06);
+                setTimeout(() => playTone(2500, 0.1, 'sine', 0.05), 50); }
+
+            function playCharSound(char) {
+                const map = {
+                    '🐰': { freq: 700, type: 'sine' },
+                    '🐦': { freq: 1200, type: 'sine' },
+                    '🦋': { freq: 900, type: 'sine' },
+                    '🦆': { freq: 400, type: 'square' },
+                    '🧚': { freq: 1500, type: 'sine' },
+                    '🧸': { freq: 500, type: 'sine' },
+                    '🐼': { freq: 300, type: 'square' },
+                    'default': { freq: 600, type: 'sine' }
+                };
+                const cfg = map[char] || map['default'];
+                playTone(cfg.freq, 0.2, cfg.type, 0.1);
+                setTimeout(() => playTone(cfg.freq * 1.3, 0.15, cfg.type, 0.08), 100);
+            }
+
+            // ============================================================
+            //  SPEECH SYNTHESIS — UNIQUE VOICE PER CHARACTER
+            // ============================================================
+            // Each character gets a distinct voice profile (rate, pitch, and preferred voice name)
+            const voiceProfiles = {
+                '🐰': { rate: 0.85, pitch: 1.3, name: 'Bunny', voiceName: 'Samantha' },
+                '🐦': { rate: 0.75, pitch: 1.6, name: 'Bird', voiceName: 'Zira' },
+                '🦋': { rate: 0.80, pitch: 1.4, name: 'Butterfly', voiceName: 'Samantha' },
+                '🦆': { rate: 0.90, pitch: 0.7, name: 'Duck', voiceName: 'Alex' },
+                '🧚': { rate: 0.70, pitch: 1.8, name: 'Fairy', voiceName: 'Samantha' },
+                '🧸': { rate: 0.82, pitch: 1.1, name: 'Teddy', voiceName: 'Fred' },
+                '🐼': { rate: 0.75, pitch: 0.6, name: 'Panda', voiceName: 'Alex' },
+                'default': { rate: 0.9, pitch: 1.0, name: 'Friend', voiceName: 'Samantha' }
+            };
+
+            function speakText(text, charEmoji) {
+                if (!speechEnabled || !window.speechSynthesis) return;
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                const profile = voiceProfiles[charEmoji] || voiceProfiles['default'];
+
+                utterance.rate = profile.rate;
+                utterance.pitch = profile.pitch;
+                utterance.volume = 0.9;
+
+                // Try to find a matching voice
+                const voices = window.speechSynthesis.getVoices();
+                let selectedVoice = null;
+
+                // First try to match by name
+                if (profile.voiceName) {
+                    selectedVoice = voices.find(v => v.name && v.name.toLowerCase().includes(profile.voiceName.toLowerCase()));
+                }
+
+                // If no match, try to find a voice that matches the character's gender/pitch
+                if (!selectedVoice) {
+                    if (profile.pitch > 1.2) {
+                        // Higher pitch → try female voices
+                        selectedVoice = voices.find(v => /female/i.test(v.name) || /samantha/i.test(v.name) || /zira/i.test(v
+                        .name) || /victoria/i.test(v.name));
+                    } else if (profile.pitch < 0.8) {
+                        // Lower pitch → try male voices
+                        selectedVoice = voices.find(v => /male/i.test(v.name) || /alex/i.test(v.name) || /fred/i.test(v.name) ||
+                            /daniel/i.test(v.name));
+                    }
+                }
+
+                // Fallback to any voice
+                if (!selectedVoice && voices.length > 0) {
+                    selectedVoice = voices[Math.floor(Math.random() * voices.length)];
+                }
+
+                if (selectedVoice) utterance.voice = selectedVoice;
+
+                // Speak
+                window.speechSynthesis.speak(utterance);
+
+                // Also play a character sound effect
+                playCharSound(charEmoji || 'default');
+            }
+
+            // Make sure voices are loaded
+            if (window.speechSynthesis) {
+                window.speechSynthesis.getVoices();
+                window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+            }
+
+            // ============================================================
+            //  DAILY GIFT
+            // ============================================================
+            const GIFT_CALENDAR = {
+                '07-23': { char: '🐰', msg: 'A tiny carrot cake! 🥕' },
+                '07-24': { char: '🐦', msg: 'A feather pen for writing wishes ✍️' },
+                '07-25': { char: '🦋', msg: 'A rainbow ribbon for your hair 🌈' },
+                '07-26': { char: '🦆', msg: 'A shiny pebble from the pond ✨' },
+                '07-27': { char: '🧚', msg: 'A jar of fairy dust 🌟' },
+                '07-28': { char: '🧸', msg: 'A honey pot full of sweetness 🍯' },
+                '07-29': { char: '🐼', msg: 'A bamboo flute that plays lullabies 🎵' },
+                '07-30': { char: '🐰', msg: 'A basket of wild strawberries 🍓' },
+                '07-31': { char: '🐦', msg: 'A morning song written on a leaf 🍃' },
+                '08-01': { char: '🦋', msg: 'A pair of sparkling wings for your dreams ✨' },
+                '08-02': { char: '🦆', msg: 'A tiny boat for your bath 🛶' },
+                '08-03': { char: '🧚', msg: 'A crown of flowers 👑' },
+                '08-04': { char: '🧸', msg: 'A jar of wild honey 🍯' },
+                '08-05': { char: '🐼', msg: 'A bamboo necklace 🎋' },
+                '08-06': { char: '🐰', msg: 'A soft fluffy tail to cuddle 🐇' },
+                '08-07': { char: '🐦', msg: 'A whistling tune for good luck 🎶' },
+                '08-08': { char: '🦋', msg: 'A butterfly-shaped mirror 🪞' },
+                '08-09': { char: '🦆', msg: 'A rubber duck that glows in the dark 🐤' },
+                '08-10': { char: '🧚', msg: 'A bottle of starlight ✨' },
+                '08-11': { char: '🧸', msg: 'A tiny bear hug charm 🤗' },
+                '08-12': { char: '🐼', msg: 'A panda-shaped cookie 🍪' },
+                '08-13': { char: '🐰', msg: 'A basket of magical carrots 🥕' },
+                '08-14': { char: '🐦', msg: 'A feather that writes by itself ✍️' },
+                '08-15': { char: '🦋', msg: 'A kaleidoscope of colours 🌈' },
+                '08-16': { char: '🦆', msg: 'A mini fountain for your room ⛲' },
+                '08-17': { char: '🧚', msg: 'A pouch of glittering dust ✨' },
+                '08-18': { char: '🧸', msg: 'A jar of honey with a tiny dipper 🍯' },
+                '08-19': { char: '🐼', msg: 'A bamboo plant that grows wishes 🎋' },
+                '08-20': { char: '🎂', msg: 'A slice of the almost-ready cake! 🍰' },
+            };
+
+            function getTodayGift() {
+                const now = new Date();
+                const mm = String(now.getMonth() + 1).padStart(2, '0');
+                const dd = String(now.getDate()).padStart(2, '0');
+                return GIFT_CALENDAR[mm + '-' + dd] || null;
+            }
+
+            function updateDailyGift() {
+                const gift = getTodayGift();
+                if (gift) { giftCharSpan.textContent = gift.char;
+                    giftMessageSpan.textContent = gift.msg;
+                    dailyGiftBadge.style.display = 'block';
+                    dailyGiftData = gift; } else { dailyGiftBadge.style.display = 'none';
+                    dailyGiftData = null; }
+            }
+            updateDailyGift();
+
+            // ============================================================
+            //  AI ENGINE — Hugging Face + Smart Fallback
+            // ============================================================
+
+            // ---- Character personalities ----
+            const charPersonality = {
+                '🐰': {
+                    name: 'Bunny',
+                    traits: ['cheerful', 'bouncy', 'optimistic'],
+                    greetings: ['Hello, sunshine! 🌞', 'Hi there! You look so happy today!', 'Hey! Let\'s hop around!']
+                },
+                '🐦': {
+                    name: 'Bird',
+                    traits: ['poetic', 'melodic', 'dreamy'],
+                    greetings: ['Hello, sweet one! 🎵', 'A song for you!', 'Chirp chirp! You\'re here!']
+                },
+                '🦋': {
+                    name: 'Butterfly',
+                    traits: ['dreamy', 'ethereal', 'gentle'],
+                    greetings: ['Hello, gentle soul. 🦋', 'You float like a butterfly.', 'So nice to see you!']
+                },
+                '🦆': {
+                    name: 'Duck',
+                    traits: ['funny', 'waddly', 'playful'],
+                    greetings: ['Quack! Hello! 🦆', 'Waddle waddle! Hi!', 'Hey there, buddy!']
+                },
+                '🧚': {
+                    name: 'Fairy',
+                    traits: ['magical', 'whimsical', 'kind'],
+                    greetings: ['Greetings, child of light! ✨', 'Hello, magic one!', 'Sparkle sparkle!']
+                },
+                '🧸': {
+                    name: 'Teddy',
+                    traits: ['sweet', 'cuddly', 'warm'],
+                    greetings: ['Hello, sweetie! 🧸', 'Hug hug!', 'Nice to see you!']
+                },
+                '🐼': {
+                    name: 'Panda',
+                    traits: ['calm', 'philosophical', 'wise'],
+                    greetings: ['Hello, peaceful one. 🐼', 'Zen and calm.', 'Nice to meet you.']
+                }
+            };
+
+            // ---- Smart offline response engine (with context and variety) ----
+            function getOfflineResponse(charEmoji, userMsg, history) {
+                const lower = userMsg.toLowerCase();
+                const persona = charPersonality[charEmoji] || charPersonality['🐰'];
+                const name = persona.name;
+
+                // --- Check for gift ---
+                const gift = getTodayGift();
+                if (gift && gift.char === charEmoji && (lower.includes('gift') || lower.includes('surprise') || lower
+                        .includes('today'))) {
+                    return `🌟 I have a gift for you today! ${gift.msg} (Tap me to open it!)`;
+                }
+
+                // --- Sentiment ---
+                const positive = ['love', 'happy', 'joy', 'wonderful', 'beautiful', 'amazing', 'great', 'good', 'nice',
+                    'sweet', 'kind', 'glad', 'exciting', 'fantastic'
+                ];
+                const negative = ['sad', 'bad', 'terrible', 'awful', 'horrible', 'upset', 'angry', 'mad', 'frustrated',
+                    'disappointed', 'lonely'
+                ];
+                let sentiment = 'neutral';
+                let posScore = 0,
+                    negScore = 0;
+                positive.forEach(w => { if (lower.includes(w)) posScore++; });
+                negative.forEach(w => { if (lower.includes(w)) negScore++; });
+                if (posScore > negScore) sentiment = 'positive';
+                else if (negScore > posScore) sentiment = 'negative';
+
+                // --- Topic detection with more nuance ---
+                let topics = [];
+                if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey') || lower.includes('greet'))
+                    topics.push('hello');
+                if (lower.includes('birthday') || lower.includes('bday') || lower.includes('princess') || lower.includes(
+                        'celebrate')) topics.push('birthday');
+                if (lower.includes('cake') || lower.includes('bake') || lower.includes('dessert') || lower.includes(
+                        'sweet')) topics.push('cake');
+                if (lower.includes('tree') || lower.includes('wish') || lower.includes('dream') || lower.includes('hope'))
+                    topics.push('tree');
+                if (lower.includes('love') || lower.includes('like') || lower.includes('adore') || lower.includes('miss'))
+                    topics.push('love');
+                if (lower.includes('gift') || lower.includes('present') || lower.includes('surprise')) topics.push('gift');
+                if (lower.includes('help') || lower.includes('advice') || lower.includes('suggest') || lower.includes(
+                        'recommend')) topics.push('help');
+                if (lower.includes('thanks') || lower.includes('thank')) topics.push('thanks');
+                if (lower.includes('how are you') || lower.includes('how are you doing') || lower.includes('how do you do'))
+                    topics.push('howareyou');
+                if (lower.includes('what is') || lower.includes('what are') || lower.includes('why') || lower.includes(
+                        'how to') || lower.includes('explain')) topics.push('question');
+                if (lower.includes('name') || lower.includes('called')) topics.push('name');
+                if (lower.includes('weather') || lower.includes('rain') || lower.includes('sun') || lower.includes('cloud'))
+                    topics.push('weather');
+                if (lower.includes('story') || lower.includes('tell me') && !lower.includes('about')) topics.push('story');
+                if (lower.includes('joke') || lower.includes('funny') || lower.includes('laugh')) topics.push('joke');
+                if (lower.includes('secret') || lower.includes('magic') || lower.includes('mystery')) topics.push('secret');
+
+                if (topics.length === 0) topics.push('default');
+
+                // ---- Build response pool ----
+                const responses = [];
+                const charName = name;
+
+                // --- Hello ---
+                if (topics.includes('hello')) {
+                    const greets = persona.greetings;
+                    responses.push(greets[Math.floor(Math.random() * greets.length)]);
+                }
+
+                // --- Birthday ---
+                if (topics.includes('birthday')) {
+                    const msgs = [
+                        `🎂 The big day is almost here! We're all preparing a huge surprise for you!`,
+                        `🎉 Your birthday will be the most magical day ever! I'm so excited!`,
+                        `🌸 We've been planning something special just for you, princess!`,
+                        `✨ Every flower in the garden is blooming for your birthday!`,
+                        `🎈 The balloons are ready and the cake is almost done! You're going to love it!`,
+                        `👑 A true princess deserves a royal celebration! And you are one!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Cake ---
+                if (topics.includes('cake')) {
+                    const msgs = [
+                        `🎂 The cake is getting more delicious every day! I can smell it from here!`,
+                        `🍰 I love cake! Especially when it's made with love for you!`,
+                        `🧁 The bakery is working hard on the most beautiful cake you've ever seen!`,
+                        `🍩 Every layer is filled with wishes and sprinkles of joy!`,
+                        `🥮 The cake is almost ready! Just a little more love and it'll be perfect!`,
+                        `🎂 I heard the cake has a secret message inside — just for you!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Tree ---
+                if (topics.includes('tree')) {
+                    const msgs = [
+                        `🌳 The wish tree is my favourite spot! It's full of dreams and hope.`,
+                        `✨ Make a wish under the tree, and the whole garden will help it come true!`,
+                        `🍃 The tree whispers secrets to the wind. It knows all your wishes.`,
+                        `🌿 I love sitting under the tree. It's so peaceful and wise.`,
+                        `🍀 The tree's leaves sparkle with magic whenever you're near!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Love ---
+                if (topics.includes('love')) {
+                    const msgs = [
+                        `❤️ I love you too! You're the best thing that's ever happened to this garden!`,
+                        `💖 My heart is full of joy whenever you're here. You're so loved!`,
+                        `🌸 You bring so much warmth and kindness to everyone around you.`,
+                        `💕 Love is what makes this garden grow, and you are its brightest star!`,
+                        `🧡 You are loved beyond measure, princess. Never forget that!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Gift ---
+                if (topics.includes('gift')) {
+                    const msgs = [
+                        `🎁 I have something special for you! Come find me in the garden!`,
+                        `🎀 Every day brings a new gift from your friends. Today's is extra special!`,
+                        `💝 The gift house is full of treasures waiting just for you!`,
+                        `🎄 You deserve all the gifts in the world, princess!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Help / Advice ---
+                if (topics.includes('help')) {
+                    const msgs = [
+                        `💡 I think you already know the answer in your heart. Trust yourself!`,
+                        `🌟 You're smarter and stronger than you realize. I believe in you!`,
+                        `🧠 Let me think... I'd say follow your intuition. It never steers you wrong.`,
+                        `💭 The best advice I can give is to be kind to yourself. You deserve it.`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Thanks ---
+                if (topics.includes('thanks')) {
+                    const msgs = [
+                        `😊 You're so welcome! It's my joy to be here with you.`,
+                        `🌸 Thank YOU for being such a wonderful friend!`,
+                        `💖 Your kindness makes this garden a better place.`,
+                        `🌷 No need to thank me — seeing you happy is the best reward!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- How are you ---
+                if (topics.includes('howareyou')) {
+                    const msgs = [
+                        `😊 I'm doing great, especially now that you're here! How about you?`,
+                        `🌸 I'm as happy as a butterfly in spring! Thanks for asking.`,
+                        `💖 I'm feeling wonderful! The garden is blooming and you're here!`,
+                        `🌿 I'm peaceful and calm. This garden is full of good energy.`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Question ---
+                if (topics.includes('question')) {
+                    const msgs = [
+                        `🤔 That's a great question! Let me think... I'd say the answer is always love.`,
+                        `💭 Hmm, that's deep. I think the garden knows the answer — ask the tree!`,
+                        `🧐 I'm not sure I have all the answers, but I'm here to help you find them.`,
+                        `🌟 The most important questions are the ones we ask with our hearts.`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Name ---
+                if (topics.includes('name')) {
+                    const msgs = [
+                        `🌸 My name is ${charName}! What's your name, lovely?`,
+                        `🐰 I'm ${charName}, your garden friend!`,
+                        `💖 I'm ${charName}! I've been waiting to meet you!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Weather ---
+                if (topics.includes('weather')) {
+                    const msgs = [
+                        `☀️ The weather is perfect for a garden walk! Just like you.`,
+                        `🌈 It's always sunny when you're around, even on cloudy days!`,
+                        `🌤️ The flowers love this weather — and so do I!`,
+                        `⛅ It's a beautiful day to be alive and in the garden!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Story ---
+                if (topics.includes('story')) {
+                    const msgs = [
+                        `📖 Once upon a time, there was a princess who visited a magical garden...`,
+                        `✨ I know a story about a little seed that grew into the most beautiful flower!`,
+                        `📚 There's a tale about a bunny who found a treasure chest full of love.`,
+                        `🎭 The garden has many stories — each flower has its own tale to tell.`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Joke ---
+                if (topics.includes('joke')) {
+                    const jokes = [
+                        `😂 Why did the flower go to school? To get a little "deeper" education!`,
+                        `🤣 What did the tree say to the wind? "Leaf me alone!"`,
+                        `😄 Why don't butterflies ever get lost? Because they always follow the "flutter" path!`,
+                        `🐰 What do you call a bunny with a great sense of humor? A funny "bunny"!`,
+                        `🦆 Why did the duck cross the road? To "quack" up the other side!`
+                    ];
+                    responses.push(jokes[Math.floor(Math.random() * jokes.length)]);
+                }
+
+                // --- Secret / Magic ---
+                if (topics.includes('secret')) {
+                    const msgs = [
+                        `🤫 I'll tell you a secret: the garden only blooms when you're happy!`,
+                        `✨ The real magic is inside you, princess. Always has been.`,
+                        `🌟 Shhh... the fairies told me that your wish will come true very soon!`,
+                        `🔮 I see something wonderful in your future — something truly magical!`
+                    ];
+                    responses.push(msgs[Math.floor(Math.random() * msgs.length)]);
+                }
+
+                // --- Default (fallback) with more variety ---
+                if (topics.includes('default') || responses.length === 0) {
+                    const defaults = [
+                        `🌸 That's lovely! Tell me more about that.`,
+                        `💖 I'm all ears (or floppy ears!). What else is on your mind?`,
+                        `🌷 You have such a beautiful way of seeing the world.`,
+                        `✨ Every word you say makes the garden bloom a little more.`,
+                        `💭 I really enjoy talking with you. You're such a kind soul.`,
+                        `🌟 You always know how to brighten my day!`,
+                        `🍀 I wonder what adventures we'll have today.`,
+                        `🌺 You're the reason this garden is so magical.`
+                    ];
+                    const base = defaults[Math.floor(Math.random() * defaults.length)];
+                    if (sentiment === 'negative') {
+                        responses.push(`💖 I'm sorry you're feeling that way. I'm here for you. Everything will be okay.`);
+                    }
+                    responses.push(base);
+                }
+
+                // --- Add personality touch ---
+                const personalityFlavors = {
+                    '🐰': ' 🐇 Let\'s hop to it!',
+                    '🐦': ' 🎵 Sing with me!',
+                    '🦋': ' 🦋 So dreamy...',
+                    '🦆': ' 🦆 Quack-tastic!',
+                    '🧚': ' ✨ Sparkle on!',
+                    '🧸': ' 🧸 Hugs!',
+                    '🐼': ' 🐼 Zen vibes...'
+                };
+                if (Math.random() > 0.6) {
+                    const flavor = personalityFlavors[charEmoji] || ' 🌸';
+                    responses.push(flavor);
+                }
+
+                // --- Pick final response ---
+                let finalResponse = responses[Math.floor(Math.random() * responses.length)];
+
+                // --- If the user mentions "princess", add a regal touch ---
+                if (lower.includes('princess')) {
+                    finalResponse = finalResponse.replace(/you/g, 'princess').replace(/you're/g, 'princess is');
+                    if (!finalResponse.includes('princess')) {
+                        finalResponse += ' You are a true princess! 👑';
+                    }
+                }
+
+                return finalResponse;
+            }
+
+            // ---- Hugging Face AI with better error handling and retry ----
+            async function getHFResponse(charEmoji, userMsg, history, retryCount = 0) {
+                if (!hfApiKey) return null;
+                try {
+                    // Build conversation context from history (last 6 messages)
+                    const pastUserInputs = [];
+                    const generatedResponses = [];
+                    const historySlice = history.slice(-10);
+                    for (let i = 0; i < historySlice.length; i++) {
+                        if (i % 2 === 0) pastUserInputs.push(historySlice[i]);
+                        else generatedResponses.push(historySlice[i]);
+                    }
+
+                    const payload = {
+                        inputs: {
+                            past_user_inputs: pastUserInputs.slice(-5),
+                            generated_responses: generatedResponses.slice(-5),
+                            text: userMsg
+                        },
+                        parameters: {
+                            max_new_tokens: 80,
+                            temperature: 0.85,
+                            do_sample: true,
+                            top_p: 0.92,
+                            repetition_penalty: 1.15
+                        }
+                    };
+
+                    const response = await fetch(
+                        'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${hfApiKey}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        }
+                    );
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        console.warn('HF API error:', response.status, errText);
+                        if (response.status === 401 || response.status === 403) {
+                            apiStatus.textContent = '❌ Invalid API key. Please check and try again.';
+                            apiStatus.className = 'api-status error';
+                            hfApiKey = null;
+                            localStorage.removeItem('hf_api_key');
+                            updateAIBadge();
+                            return null;
+                        }
+                        if (response.status === 503) {
+                            // Model loading, retry after a delay
+                            if (retryCount < 3) {
+                                apiStatus.textContent = `⏳ Model is loading... Retry ${retryCount+1}/3`;
+                                apiStatus.className = 'api-status';
+                                await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1)));
+                                return getHFResponse(charEmoji, userMsg, history, retryCount + 1);
+                            } else {
+                                apiStatus.textContent = '⏳ Model loading took too long. Using offline mode for now.';
+                                apiStatus.className = 'api-status';
+                                return null;
+                            }
+                        }
+                        return null;
+                    }
+
+                    const data = await response.json();
+                    if (data && data.generated_text) {
+                        let reply = data.generated_text;
+                        // Clean up
+                        reply = reply.replace(/<\|.*?\|>/g, '').trim();
+                        if (!reply || reply.length < 1) return null;
+                        if (reply.length > 200) reply = reply.slice(0, 200) + '...';
+                        return reply;
+                    }
+                    return null;
+                } catch (e) {
+                    console.warn('HF API exception:', e);
+                    if (retryCount < 2) {
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        return getHFResponse(charEmoji, userMsg, history, retryCount + 1);
+                    }
+                    return null;
+                }
+            }
+
+            // ---- Main AI function ----
+            async function getAIResponse(charEmoji, userMsg, history) {
+                // First try HF if we have a key and AI mode is online
+                if (hfApiKey && aiMode === 'online') {
+                    try {
+                        const hfReply = await getHFResponse(charEmoji, userMsg, history);
+                        if (hfReply && hfReply.length > 0) {
+                            return hfReply;
+                        }
+                        // If HF failed, fall through to offline
+                    } catch (e) {
+                        console.warn('HF AI failed, using offline:', e);
+                    }
+                }
+                // Offline fallback
+                return getOfflineResponse(charEmoji, userMsg, history);
+            }
+
+            // ---- API Key management ----
+            function loadAPIKey() {
+                const saved = localStorage.getItem('hf_api_key');
+                if (saved && saved.startsWith('hf_') && saved.length > 10) {
+                    hfApiKey = saved;
+                    aiMode = 'online';
+                    apiModal.classList.add('hidden');
+                    updateAIBadge();
+                    apiStatus.textContent = '✅ AI connected via Hugging Face!';
+                    apiStatus.className = 'api-status success';
+                    return true;
+                }
+                if (localStorage.getItem('hf_skip') === 'true') {
+                    apiModal.classList.add('hidden');
+                    aiMode = 'offline';
+                    updateAIBadge();
+                    apiStatus.textContent = '💡 Offline mode — smart but not AI-powered.';
+                    apiStatus.className = 'api-status';
+                    return false;
+                }
+                return false;
+            }
+
+            function updateAIBadge() {
+                if (aiMode === 'online' && hfApiKey) {
+                    aiBadge.textContent = 'AI';
+                    aiBadge.className = 'badge-ai';
+                    aiStatusDot.className = 'dot online';
+                    aiStatusText.textContent = 'AI online';
+                    chatToggle.title = 'Talk to characters (AI online)';
+                } else {
+                    aiBadge.textContent = '★';
+                    aiBadge.className = 'badge-ai offline';
+                    aiStatusDot.className = 'dot offline';
+                    aiStatusText.textContent = 'Offline mode';
+                    chatToggle.title = 'Talk to characters (offline smart mode)';
+                }
+            }
+
+            function saveAPIKey(key) {
+                if (key && key.startsWith('hf_') && key.length > 10) {
+                    hfApiKey = key;
+                    aiMode = 'online';
+                    localStorage.setItem('hf_api_key', key);
+                    localStorage.removeItem('hf_skip');
+                    apiModal.classList.add('hidden');
+                    updateAIBadge();
+                    apiStatus.textContent = '✅ AI connected successfully! You can now chat with real AI.';
+                    apiStatus.className = 'api-status success';
+                    addChatMessage('🤖', '🌐 AI mode activated! I can now understand you better. Ask me anything!', false);
+                    speakText('AI mode activated!', 'default');
+                    return true;
+                } else {
+                    apiStatus.textContent = '❌ Please enter a valid Hugging Face API key (starts with "hf_").';
+                    apiStatus.className = 'api-status error';
+                    return false;
+                }
+            }
+
+            function skipAPI() {
+                localStorage.setItem('hf_skip', 'true');
+                apiModal.classList.add('hidden');
+                aiMode = 'offline';
+                hfApiKey = null;
+                updateAIBadge();
+                apiStatus.textContent = '💡 Offline mode active — using smart responses without AI.';
+                apiStatus.className = 'api-status';
+                addChatMessage('🌸', '🌸 I\'ll use my offline brain! I still understand a lot and I\'m full of personality!',
+                    false);
+                speakText('Offline mode active', 'default');
+            }
+
+            // ---- API Modal events ----
+            apiSaveBtn.addEventListener('click', () => {
+                const key = apiKeyInput.value.trim();
+                saveAPIKey(key);
+            });
+            apiKeyInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') apiSaveBtn.click();
+            });
+            apiSkipBtn.addEventListener('click', skipAPI);
+
+            // Try to load saved key
+            if (!loadAPIKey()) {
+                if (!localStorage.getItem('hf_skip')) {
+                    setTimeout(() => {
+                        apiModal.classList.remove('hidden');
+                    }, 800);
+                }
+            }
+
+            // ============================================================
+            //  CHAT SYSTEM
+            // ============================================================
+            function addChatMessage(avatar, text, isUser = false) {
+                const div = document.createElement('div');
+                div.className = 'chat-message' + (isUser ? ' user' : '');
+                div.innerHTML = `<span class="avatar">${avatar}</span><span class="bubble">${text}</span>`;
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function showThinking() {
+                const div = document.createElement('div');
+                div.className = 'chat-message';
+                div.id = 'thinkingIndicator';
+                div.innerHTML =
+                    `<span class="avatar">${currentChatChar}</span><div class="bubble"><span class="thinking-dots"><span></span><span></span><span></span></span></div>`;
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function removeThinking() {
+                const el = document.getElementById('thinkingIndicator');
+                if (el) el.remove();
+            }
+
+            async function handleChatSend() {
+                const msg = chatInput.value.trim();
+                if (!msg || isThinking) return;
+                addChatMessage('👤', msg, true);
+                chatHistory.push(msg);
+                chatInput.value = '';
+                const charEmoji = currentChatChar;
+                isThinking = true;
+                showThinking();
+
+                playBoing();
+
+                try {
+                    const response = await getAIResponse(charEmoji, msg, chatHistory);
+                    removeThinking();
+                    if (response && response.length > 0) {
+                        addChatMessage(charEmoji, response, false);
+                        chatHistory.push(response);
+                        speakText(response, charEmoji);
+                        const rect = chatWindow.getBoundingClientRect();
+                        burstSparkles(rect.left + 80, rect.top + 120, 10);
+                        playSparkleSound();
+                    } else {
+                        const fallback = getOfflineResponse(charEmoji, msg, chatHistory);
+                        addChatMessage(charEmoji, fallback, false);
+                        chatHistory.push(fallback);
+                        speakText(fallback, charEmoji);
+                    }
+                } catch (e) {
+                    removeThinking();
+                    const fallback = getOfflineResponse(charEmoji, msg, chatHistory);
+                    addChatMessage(charEmoji, fallback, false);
+                    chatHistory.push(fallback);
+                    speakText(fallback, charEmoji);
+                }
+                isThinking = false;
+            }
+
+            // ---- Chat UI events ----
+            chatToggle.addEventListener('click', () => {
+                chatWindow.classList.toggle('open');
+                chatToggle.classList.toggle('active');
+                if (chatWindow.classList.contains('open')) chatInput.focus();
+            });
+            closeChat.addEventListener('click', () => { chatWindow.classList.remove('open');
+                chatToggle.classList.remove('active'); });
+            chatSend.addEventListener('click', handleChatSend);
+            chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') handleChatSend(); });
+
+            chatCharSelect.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+                const charEmoji = btn.dataset.char;
+                if (!charEmoji) return;
+                currentChatChar = charEmoji;
+                document.querySelectorAll('#chatCharSelect button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const persona = charPersonality[charEmoji] || charPersonality['🐰'];
+                const greeting = `🌸 Hello! I'm ${persona.name}. What would you like to talk about?`;
+                addChatMessage(charEmoji, greeting, false);
+                chatHistory.push(greeting);
+                speakText(greeting, charEmoji);
+                playChime();
+                const rect = chatWindow.getBoundingClientRect();
+                burstSparkles(rect.left + 80, rect.top + 120, 8);
+                playSparkleSound();
+            });
+
+            // ============================================================
+            //  CHARACTER CLICK (garden)
+            // ============================================================
+            document.querySelectorAll('.character').forEach(char => {
+                char.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const charEmoji = this.dataset.char || '🌸';
+                    let bubble = this.nextElementSibling;
+                    if (!bubble || !bubble.classList.contains('speech-bubble')) {
+                        bubble = document.createElement('span');
+                        bubble.className = 'speech-bubble show';
+                        bubble.textContent = '🌸 Hello!';
+                        this.parentNode.insertBefore(bubble, this.nextSibling);
+                    }
+                    const gift = getTodayGift();
+                    let msg = '';
+                    if (gift && gift.char === charEmoji) {
+                        msg = `🎁 Today's gift: ${gift.msg} ! Tap me to open it!`;
+                    } else {
+                        // Use offline AI for character interaction
+                        const aiMsg = getOfflineResponse(charEmoji, 'hello', chatHistory);
+                        msg = aiMsg || '🌸 Hi there! You look lovely today!';
+                    }
+                    bubble.textContent = msg;
+                    bubble.classList.add('show');
+                    speakText(msg, charEmoji);
+                    playBoing();
+                    clearTimeout(this._bubbleTimeout);
+                    this._bubbleTimeout = setTimeout(() => { bubble.classList.remove('show'); }, 4000);
+
+                    const rect = this.getBoundingClientRect();
+                    burstSparkles(rect.left + rect.width / 2, rect.top + rect.height / 2, 15);
+                    playSparkleSound();
+
+                    if (gift && gift.char === charEmoji) {
+                        burstConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2, 30);
+                        giftMessageSpan.textContent = '🎁 Gift delivered! ✨';
+                        setTimeout(() => updateDailyGift(), 3000);
+                    }
+                });
+            });
+
+            // ============================================================
+            //  TREE
+            // ============================================================
+            wishTreeContainer.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = wishTreeContainer.getBoundingClientRect();
+                burstSparkles(rect.left + rect.width / 2, rect.top + rect.height * 0.3, 25);
+                if (isCelebrating) burstConfetti(rect.left + rect.width / 2, rect.top + rect.height * 0.3, 30);
+                playSparkleSound();
+                playChime();
+                treeCanopy.style.transform = 'translateX(-50%) rotate(-3deg)';
+                setTimeout(() => { treeCanopy.style.transform = 'translateX(-50%) rotate(3deg)'; }, 150);
+                setTimeout(() => { treeCanopy.style.transform = 'translateX(-50%) rotate(0deg)'; }, 300);
+                const treeMsg = '✨ You touched the wish tree! It glows with love for you. Make a wish! 🌟';
+                addChatMessage('🌳', treeMsg, false);
+                chatHistory.push(treeMsg);
+                speakText(treeMsg, '🌳');
+            });
+
+            // ============================================================
+            //  CAKE
+            // ============================================================
+            let cakeTaps = 0;
+            cakeStage.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isCelebrating) {
+                    burstSparkles(e.clientX, e.clientY, 10);
+                    cakeTaps++;
+                    const progress = Math.min(cakeTaps * 5 + 30, 98);
+                    cakeProgressFill.style.width = progress + '%';
+                    if (progress > 70 && progress < 99) { cakeDisplay.textContent = '🎂';
+                        cakeLabel.textContent = 'Almost ready... 🎂'; }
+                    if (progress >= 98) { cakeLabel.textContent = 'Waiting for the big day! ✨'; }
+                    playSparkleSound();
+                } else if (isCelebrating && !finalStageShown) {
+                    if (cakeTaps < 10) {
+                        burstSparkles(e.clientX, e.clientY, 25);
+                        cakeDisplay.textContent = '🎂';
+                        cakeLabel.textContent = 'Candles glowing! Tap to blow 💨';
+                        playSparkleSound();
+                        speakText('Blow the candles, princess!', '🎂');
+                    } else if (cakeTaps < 15) {
+                        burstConfetti(e.clientX, e.clientY, 50);
+                        cakeDisplay.textContent = '🍰';
+                        cakeLabel.textContent = 'Cake cut! Yay! 🎉';
+                        burstSparkles(e.clientX, e.clientY, 40);
+                        playSfxCelebration();
+                        speakText('Happy Birthday! The cake is cut!', '🎂');
+                        setTimeout(showFinalStage, 2000);
+                    }
+                    cakeTaps++;
+                }
+            });
+
+            // ============================================================
+            //  MOON
+            // ============================================================
+            const moonSection = document.getElementById('section-moon');
+            if (moonSection) {
+                moonSection.addEventListener('click', (e) => {
+                    const icon = moonSection.querySelector('.area-icon');
+                    if (icon && e.target === icon) {
+                        moonTapCount++;
+                        if (moonTapTimer) clearTimeout(moonTapTimer);
+                        moonTapTimer = setTimeout(() => { moonTapCount = 0; }, 2000);
+                        if (moonTapCount >= 5 && !celebrationTriggered) {
+                            triggerCelebration();
+                            moonTapCount = 0;
+                        }
+                    }
+                });
+            }
+
+            // ============================================================
+            //  GLOBAL CLICK SPARKLES
+            // ============================================================
+            document.addEventListener('click', (e) => {
+                if (e.target.closest('#wishTreeContainer') || e.target.closest('#cakeStage') ||
+                    e.target.closest('#section-moon') || e.target.closest('#musicToggle') ||
+                    e.target.closest('#finalStage') || e.target.closest('.character') ||
+                    e.target.closest('.chat-window') || e.target.closest('.chat-toggle') ||
+                    e.target.closest('.speech-toggle') || e.target.closest('.api-modal-overlay')) return;
+                burstSparkles(e.clientX, e.clientY, 6);
+            });
+
+            // ============================================================
+            //  AUDIO
+            // ============================================================
+            function playSfxSparkle() {
+                try { const c = sfxSparkle.cloneNode();
+                    c.volume = 0.3;
+                    c.play().catch(() => {}); } catch (e) {}
+            }
+
+            function playSfxCelebration() {
+                try { const c = sfxCelebration.cloneNode();
+                    c.volume = 0.5;
+                    c.play().catch(() => {}); } catch (e) {}
+            }
+
+            function toggleMusic() {
+                if (musicPlaying) { bgMusic.pause();
+                    musicPlaying = false;
+                    musicToggle.classList.remove('playing');
+                    musicToggle.textContent = '🔇'; } else { bgMusic.play().catch(() => {});
+                    musicPlaying = true;
+                    musicToggle.classList.add('playing');
+                    musicToggle.textContent = '🎵'; }
+            }
+            musicToggle.addEventListener('click', toggleMusic);
+
+            function toggleSpeech() {
+                speechEnabled = !speechEnabled;
+                speechToggle.classList.toggle('muted', !speechEnabled);
+                speechToggle.textContent = speechEnabled ? '🔊' : '🔇';
+                if (speechEnabled) speakText('Voice is on', 'default');
+                else if (window.speechSynthesis) window.speechSynthesis.cancel();
+            }
+            speechToggle.addEventListener('click', toggleSpeech);
+
+            function tryAutoplay() {
+                bgMusic.volume = 0.25;
+                bgMusic.play().then(() => { musicPlaying = true;
+                    musicToggle.classList.add('playing');
+                    musicToggle.textContent = '🎵'; })
+                    .catch(() => { musicPlaying = false;
+                        musicToggle.classList.remove('playing');
+                        musicToggle.textContent = '🔇'; });
+            }
+            document.addEventListener('click', tryAutoplay, { once: true });
+            tryAutoplay();
+
+            // ============================================================
+            //  COUNTDOWN
+            // ============================================================
+            function updateCountdown() {
+                const now = Date.now();
+                const diff = BIRTHDAY_DATE.getTime() - now;
+                if (diff <= 0 && !celebrationTriggered) { triggerCelebration(); return; }
+                if (diff <= 0) { countdownDigits.textContent = '🎉 NOW!'; return; }
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                countdownDigits.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+                const totalDays = 30;
+                const daysRemaining = days;
+                const progressPercent = Math.max(25, Math.min(98, 100 - (daysRemaining / totalDays) * 100));
+                if (!isCelebrating) {
+                    cakeProgressFill.style.width = progressPercent + '%';
+                    if (progressPercent < 40) { cakeDisplay.textContent = '🥧';
+                        cakeLabel.textContent = 'Cake is baking... 🎂'; } else if (progressPercent < 65) { cakeDisplay
+                            .textContent = '🥞';
+                        cakeLabel.textContent = 'Adding cream... 🎂'; } else if (progressPercent < 85) { cakeDisplay
+                            .textContent = '🎂';
+                        cakeLabel.textContent = 'Decorating... ✨'; } else { cakeDisplay.textContent = '🎂';
+                        cakeLabel.textContent = 'Almost ready! 🎂'; }
+                }
+                const leafGreen = Math.min(1, 1 - (daysRemaining / 40));
+                const r = Math.floor(74 + leafGreen * 30);
+                const g = Math.floor(180 + leafGreen * 40);
+                const b = Math.floor(100 + leafGreen * 30);
+                if (!isCelebrating) {
+                    treeCanopy.style.background =
+                        `radial-gradient(ellipse at center, rgb(${r+40},${g+30},${b+20}) 0%, rgb(${r},${g},${b}) 60%, rgb(${r-30},${g-40},${b-30}) 100%)`;
+                }
+            }
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+
+            // ============================================================
+            //  CELEBRATION
+            // ============================================================
+            function triggerCelebration() {
+                if (celebrationTriggered) return;
+                celebrationTriggered = true;
+                isCelebrating = true;
+                document.body.classList.add('celebrating');
+                countdownDigits.textContent = '🎉 NOW! 🎉';
+                bigHappyBirthday.textContent = '🌸 Happy Birthday, Princess! 🌸\n🎂💖✨';
+                celebrationOverlay.classList.add('active');
+
+                const cx = window.innerWidth / 2,
+                    cy = window.innerHeight / 2;
+                burstConfetti(cx, cy, 200);
+                burstSparkles(cx, cy, 80);
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        burstConfetti(Math.random() * window.innerWidth, Math.random() * window.innerHeight *
+                            0.6, 50);
+                        burstSparkles(Math.random() * window.innerWidth, Math.random() * window.innerHeight *
+                            0.6, 25);
+                    }, i * 300);
+                }
+                cakeDisplay.textContent = '🎂';
+                cakeProgressFill.style.width = '100%';
+                cakeLabel.textContent = 'Cake ready! Tap to blow candles 🕯️';
+                cakeTaps = 0;
+                bakeryDesc.textContent = 'The cake is finally ready!\nTap the candles to blow them softly.';
+                treeCanopy.style.background =
+                    'radial-gradient(ellipse at center, #a8e6a8 0%, #5cb85c 40%, #3d7a3d 70%, #2d5a2d 100%)';
+                treeCanopy.style.boxShadow = '0 10px 60px rgba(100,200,100,0.5), 0 0 100px rgba(255,215,0,0.4)';
+                treeMessage.style.transform = 'translate(-50%,-50%) scale(1)';
+
+                playSfxCelebration();
+                setTimeout(() => playSfxCelebration(), 800);
+                setTimeout(() => playSfxCelebration(), 1600);
+                speakText('Happy Birthday, Princess! All the garden is celebrating you!', 'default');
+
+                setTimeout(() => { celebrationOverlay.classList.remove('active'); }, 5000);
+
+                clearInterval(window._petalInterval);
+                window._petalInterval = setInterval(spawnPetal, 400);
+
+                if (treeLightsInterval) clearInterval(treeLightsInterval);
+                treeLightsInterval = setInterval(() => {
+                    const r = wishTreeContainer.getBoundingClientRect();
+                    burstSparkles(r.left + r.width / 2 + (Math.random() - 0.5) * 200, r.top + r.height * 0.3 + (
+                        Math.random() - 0.5) * 150, 8);
+                }, 800);
+
+                addChatMessage('🌸', '🎉🎉 HAPPY BIRTHDAY, PRINCESS! 🎉🎉\nAll the garden is celebrating you! 💖', false);
+                chatHistory.push('🎉🎉 HAPPY BIRTHDAY, PRINCESS! 🎉🎉');
+                speakText('Happy Birthday, Princess! All the garden is celebrating you!', 'default');
+            }
+
+            function showFinalStage() {
+                if (finalStageShown) return;
+                finalStageShown = true;
+                finalStage.classList.add('active');
+                burstConfetti(window.innerWidth / 2, window.innerHeight / 2, 300);
+                burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 100);
+                playSfxCelebration();
+                speakText('Happy Birthday! You are so loved.', 'default');
+                finalStage.addEventListener('click', () => {
+                    finalStage.classList.remove('active');
+                    burstSparkles(window.innerWidth / 2, window.innerHeight / 2, 30);
+                });
+            }
+
+            if (Date.now() >= BIRTHDAY_DATE.getTime() && !celebrationTriggered) {
+                setTimeout(() => triggerCelebration(), 1500);
+            }
+
+            // ============================================================
+            //  KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'b' && e.ctrlKey && !celebrationTriggered) { e.preventDefault();
+                    triggerCelebration(); }
+                if (e.key === 'f' && e.ctrlKey && isCelebrating && !finalStageShown) { e.preventDefault();
+                    cakeTaps = 14;
+                    cakeStage.click(); }
+            });
+
+            // ============================================================
+            //  TOUCH TRAIL
+            // ============================================================
+            document.addEventListener('touchmove', (e) => {
+                const t = e.touches[0];
+                if (Math.random() < 0.3) burstSparkles(t.clientX, t.clientY, 2);
+            }, { passive: true });
+            document.addEventListener('mousemove', (e) => {
+                if (Math.random() < 0.05) burstSparkles(e.clientX, e.clientY, 1);
+            });
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+            console.log('🌸 Secret Birthday Garden · True AI Chat with Unique Character Voices 🌸');
+            console.log('💬 Each character has its own unique voice!');
+            console.log('🔑 Add your Hugging Face API key for real AI understanding.');
+            for (let i = 0; i < 3; i++) setTimeout(spawnPetal, i * 600);
+            setTimeout(generateTreeLights, 500);
+
+            setInterval(() => {
+                const now = new Date();
+                const prev = window._lastDate || '';
+                const curr = now.getDate() + '-' + now.getMonth();
+                if (curr !== prev) { updateDailyGift();
+                    window._lastDate = curr; }
+            }, 60000);
+            window._lastDate = new Date().getDate() + '-' + new Date().getMonth();
+
+            setTimeout(() => {
+                if (aiMode === 'online') {
+                    addChatMessage('🤖', '🌐 I\'m connected to AI! I can understand and reply intelligently. Ask me anything!',
+                        false);
+                } else {
+                    addChatMessage('🌸', '🌸 I\'m using my smart offline mode. I understand a lot and I\'m full of personality!',
+                        false);
+                }
+            }, 1500);
+
+        })();
+    </script>
+</body>
+</html>
